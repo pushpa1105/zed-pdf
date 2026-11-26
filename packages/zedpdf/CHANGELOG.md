@@ -27,5 +27,5 @@ First public release.
 - `assetResolver` for images and fonts behind authentication or on other domains.
 - ESM build with TypeScript declarations, a minified IIFE global build (`ZedPdf`), zero runtime dependencies.
 
-[Unreleased]: https://github.com/pushpa1105/zed-pdfer/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/pushpa1105/zed-pdfer/releases/tag/v0.1.0
+[Unreleased]: https://github.com/pushpa1105/zed-pdf/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/pushpa1105/zed-pdf/releases/tag/v0.1.0

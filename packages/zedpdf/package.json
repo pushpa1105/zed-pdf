@@ -13,14 +13,14 @@
     "zero-dependency",
     "typescript"
   ],
-  "homepage": "https://pushpa1105.github.io/zed-pdfer/",
+  "homepage": "https://pushpa1105.github.io/zed-pdf/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pushpa1105/zed-pdfer.git",
+    "url": "git+https://github.com/pushpa1105/zed-pdf.git",
     "directory": "packages/zedpdf"
   },
   "bugs": {
-    "url": "https://github.com/pushpa1105/zed-pdfer/issues"
+    "url": "https://github.com/pushpa1105/zed-pdf/issues"
   },
   "license": "MIT",
   "type": "module",

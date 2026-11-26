@@ -10,7 +10,7 @@ Releases are cut from `main` by pushing a version tag. GitHub Actions does the r
 
 ## One-time setup
 
-1. **Repository.** Push this repo to GitHub. If the URL is not `https://github.com/pushpa1105/zed-pdfer`, change `homepage`, `repository` and `bugs` in [`packages/zedpdf/package.json`](packages/zedpdf/package.json), the links at the top of [`packages/zedpdf/README.md`](packages/zedpdf/README.md) and the link references at the bottom of [`CHANGELOG.md`](packages/zedpdf/CHANGELOG.md). The site reads the repository URL from `package.json`, so it needs no edits.
+1. **Repository.** Push this repo to GitHub. If the URL is not `https://github.com/pushpa1105/zed-pdf`, change `homepage`, `repository` and `bugs` in [`packages/zedpdf/package.json`](packages/zedpdf/package.json), the links at the top of [`packages/zedpdf/README.md`](packages/zedpdf/README.md) and the link references at the bottom of [`CHANGELOG.md`](packages/zedpdf/CHANGELOG.md). The site reads the repository URL from `package.json`, so it needs no edits.
 2. **Default branch** is `main` (`git branch -M main` if your local branch is still `master`).
 3. **GitHub Pages.** Settings → Pages → Build and deployment → Source: **GitHub Actions**. The site will be served at `https://<user>.github.io/<repo>/`. All site links are relative, so any repository name works.
 4. **npm auth.** Choose one:
@@ -46,7 +46,7 @@ Then watch the **Release** workflow in the Actions tab. When it finishes:
 ```sh
 git add -A && git commit -m "release: v0.1.0"
 git branch -M main
-git remote add origin https://github.com/pushpa1105/zed-pdfer.git
+git remote add origin https://github.com/pushpa1105/zed-pdf.git
 git push -u origin main           # CI + site deploy
 git tag v0.1.0 && git push origin v0.1.0   # npm publish + GitHub Release
 ```
@@ -59,6 +59,7 @@ If you would rather publish the first version by hand, run `pnpm check`, then `c
 
 ### If something goes wrong
 
+- **The tag was pushed but no Release run appeared.** This happens with a tag pushed in the same push that creates the repository. Go to Actions → Release → **Run workflow** and enter the tag, e.g. `v0.1.0`. You can also push the tag again by itself: `git push origin :refs/tags/vX && git push origin vX`.
 - **The tag check fails** ("tag does not match"). Delete the tag (`git tag -d vX && git push origin :refs/tags/vX`), fix the version or changelog, commit, then tag again.
 - **Tests fail in the release job.** Nothing was published. Fix the problem on `main`, delete and recreate the tag on the fixed commit.
 - **npm publish succeeded but a later step failed.** Re-run the workflow. Publishing is skipped when the version already exists, and the GitHub Release is created or updated.

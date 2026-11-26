@@ -9,7 +9,7 @@
 
 It has zero runtime dependencies. The npm package lives in [`packages/zedpdf`](packages/zedpdf); its README is the user documentation and API reference.
 
-**[Website & docs](https://pushpa1105.github.io/zed-pdfer/)** · [Changelog](packages/zedpdf/CHANGELOG.md) · [Releasing](RELEASING.md) · [npm](https://www.npmjs.com/package/zedpdf)
+**[Website & docs](https://pushpa1105.github.io/zed-pdf/)** · [Changelog](packages/zedpdf/CHANGELOG.md) · [Releasing](RELEASING.md) · [npm](https://www.npmjs.com/package/zedpdf)
 
 ```js
 import { pdf } from 'zedpdf';

@@ -7,7 +7,7 @@ Turn an on-screen HTML element, such as an invoice, quotation, purchase order or
 - **Close to native print.** On the reference invoice fixture, text positions match Chromium's print-to-PDF within 0.35 pt, and pixel difference is ≤ 0.17 % per page (see *Fidelity* below).
 - **Honest about gaps.** Anything it cannot reproduce comes back as a structured warning with the element and a remedy. `strict: true` turns those warnings into a failure.
 
-**[Documentation & live demo](https://pushpa1105.github.io/zed-pdfer/)** · [API docs](https://pushpa1105.github.io/zed-pdfer/docs.html) · [Changelog](https://pushpa1105.github.io/zed-pdfer/changelog.html) · [Issues](https://github.com/pushpa1105/zed-pdfer/issues)
+**[Documentation & live demo](https://pushpa1105.github.io/zed-pdf/)** · [API docs](https://pushpa1105.github.io/zed-pdf/docs.html) · [Changelog](https://pushpa1105.github.io/zed-pdf/changelog.html) · [Issues](https://github.com/pushpa1105/zed-pdf/issues)
 
 ```sh
 npm install zedpdf

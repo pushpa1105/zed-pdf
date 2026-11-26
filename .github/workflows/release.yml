@@ -8,6 +8,15 @@ name: Release
 on:
   push:
     tags: ['v*']
+  # Manual run for an existing tag, e.g. when the tag push did not trigger the workflow.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to release (e.g. v0.1.0)
+        required: true
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
 
 concurrency:
   group: release
@@ -23,6 +32,8 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ env.TAG }}
 
       - uses: pnpm/action-setup@v4
 
@@ -38,7 +49,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Tag matches package version and CHANGELOG
-        run: node scripts/release.mjs check-tag "${GITHUB_REF_NAME}"
+        run: node scripts/release.mjs check-tag "$TAG"
 
       - name: Build, typecheck, unit tests
         run: pnpm build && pnpm typecheck && pnpm test
@@ -52,7 +63,7 @@ jobs:
       - name: Release metadata
         id: meta
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${TAG#v}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           if [[ "$VERSION" == *-* ]]; then
             echo "prerelease=true" >> "$GITHUB_OUTPUT"
@@ -84,9 +95,9 @@ jobs:
         run: |
           FLAGS=""
           [ "${{ steps.meta.outputs.prerelease }}" = "true" ] && FLAGS="--prerelease"
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release edit "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
           else
-            gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/zedpdf-*.tgz \
-              --title "zedpdf $GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" $FLAGS
+            gh release create "$TAG" "$RUNNER_TEMP"/zedpdf-*.tgz \
+              --title "zedpdf $TAG" --notes-file "$RUNNER_TEMP/notes.md" $FLAGS
           fi
