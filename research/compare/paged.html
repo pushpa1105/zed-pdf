@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- Copy of fixtures/invoice.html for the Paged.js run: same fixture module and stylesheet,
+     plus an @page rule and the Paged.js polyfill (started manually once the invoice is rendered). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zedpdf invoice fixture (Paged.js)</title>
+  <link rel="stylesheet" href="/fixtures/invoice.css">
+  <style>
+    @page { size: A4; margin: 10mm; }
+    body { margin: 0; background: #fff; }
+    @media screen { body { background: #eef1f5; padding: 24px; } #mount { max-width: 900px; margin: 0 auto; background: #fff; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.08); } }
+    @media print { #mount { padding: 0; } }
+  </style>
+  <script>window.PagedConfig = { auto: false };</script>
+  <script src="/research/compare/node_modules/pagedjs/dist/paged.polyfill.js"></script>
+</head>
+<body>
+  <div id="mount"></div>
+  <script type="module">
+    import { renderInvoice } from '/fixtures/invoice.js';
+    const q = new URLSearchParams(location.search);
+    const info = renderInvoice(document.getElementById('mount'), {
+      preset: q.get('preset') ?? 'two-page',
+      rows: q.has('rows') ? +q.get('rows') : undefined,
+      base: new URL('/fixtures/', location.href).href,
+    });
+    window.__fixture = { grand: info.grand, ids: info.items.map((i) => i.id) };
+    document.documentElement.dataset.ready = '1';
+  </script>
+</body>
+</html>

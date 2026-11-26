@@ -1,0 +1,347 @@
+{
+  "generated": "2026-11-25T18:50:34.028Z",
+  "fixture": "fixtures/invoice.html?preset=two-page (28 rows)",
+  "versions": {
+    "html2pdf.js": "0.14.0",
+    "pdfmake": "0.3.15",
+    "html-to-pdfmake": "2.6.0",
+    "pagedjs": "0.4.3",
+    "zedpdf": "0.1.0",
+    "@playwright/test": "1.65.1",
+    "node": "v24.22.1",
+    "chromium": "159.0.8154.6"
+  },
+  "tools": {
+    "chromium-print": {
+      "ok": true,
+      "ms": 158.4,
+      "msRuns": [
+        168.7,
+        158.4,
+        132.6
+      ],
+      "timing": "Node-side page.pdf() round trip",
+      "bytes": 71747,
+      "notes": [
+        "Prints the whole page (fixture #mount wrapper), print media."
+      ],
+      "pages": 3,
+      "pageSizePt": [
+        "595.92x841.92"
+      ],
+      "opensMuPDF": true,
+      "mupdfRepaired": false,
+      "opensPdfjs": true,
+      "pdfjsPages": 3,
+      "xrefOk": true,
+      "textChars": 2840,
+      "textExtractable": true,
+      "ids": {
+        "exactlyOnce": 28,
+        "missing": 0,
+        "duplicated": 0,
+        "inOrder": true
+      },
+      "grandTotal": {
+        "value": "55,179.47",
+        "count": 1,
+        "countIgnoringSplits": 1,
+        "exactlyOnce": true
+      },
+      "headerRepeated": true,
+      "headerOnPages": [
+        {
+          "page": 1,
+          "unitPrice": true
+        },
+        {
+          "page": 2,
+          "unitPrice": true
+        }
+      ],
+      "rowSplits": [],
+      "screenOnlyBannerLeaked": false,
+      "textBeyondPageEdge": {
+        "count": 0,
+        "sample": []
+      },
+      "p1Png": "samples/compare/chromium-print-p1.png",
+      "baseFonts": [
+        "AAAAAA+NotoSans-Regular",
+        "BAAAAA+NotoSans-Bold",
+        "CAAAAA+Arial-BoldMT",
+        "DAAAAA+NotoSans-Italic"
+      ]
+    },
+    "zedpdf": {
+      "ok": true,
+      "ms": 149.8,
+      "msRuns": [
+        154.4,
+        149.8,
+        143.6
+      ],
+      "timing": "in-page exportPdf()",
+      "bytes": 49556,
+      "notes": [
+        "zedpdf warnings: [{\"code\":\"image-rasterized\",\"severity\":\"info\",\"message\":\"SVG image rasterized at 288 dpi\",\"element\":\"div.meta > table > tbody > tr:nth-child(4) > td:nth-child(2) > img.stamp\",\"count\":1},{\"code\":\"image-downsampled\",\"severity\":\"info\",\"message\":\"Image downsampled from 400×300 to 150×113 px for 300 dpi (12 KB → 4 KB)\",\"element\":\"div#invoice > table.items > tbody > tr:nth-child(2) > td.desc > img.thumb\",\"remedy\":\"Set maxImageDpi: false to keep the original resolution\",\"count\":1}]"
+      ],
+      "pages": 3,
+      "pageSizePt": [
+        "595.28x841.89"
+      ],
+      "opensMuPDF": true,
+      "mupdfRepaired": false,
+      "opensPdfjs": true,
+      "pdfjsPages": 3,
+      "xrefOk": true,
+      "textChars": 2836,
+      "textExtractable": true,
+      "ids": {
+        "exactlyOnce": 28,
+        "missing": 0,
+        "duplicated": 0,
+        "inOrder": true
+      },
+      "grandTotal": {
+        "value": "55,179.47",
+        "count": 1,
+        "countIgnoringSplits": 1,
+        "exactlyOnce": true
+      },
+      "headerRepeated": true,
+      "headerOnPages": [
+        {
+          "page": 1,
+          "unitPrice": true
+        },
+        {
+          "page": 2,
+          "unitPrice": true
+        }
+      ],
+      "rowSplits": [],
+      "screenOnlyBannerLeaked": false,
+      "textBeyondPageEdge": {
+        "count": 0,
+        "sample": []
+      },
+      "p1Png": "samples/compare/zedpdf-p1.png",
+      "baseFonts": [
+        "ADFDVI+NotoSans-Regular",
+        "FACQHZ+NotoSans-Bold",
+        "HCUMEG+NotoSans-Italic"
+      ],
+      "p1PixelDiffVsNativePct": 3.04
+    },
+    "html2pdf": {
+      "ok": true,
+      "ms": 366.9,
+      "msRuns": [
+        375.9,
+        366.9,
+        351.8
+      ],
+      "timing": "in-page html2pdf().outputPdf()",
+      "bytes": 1047526,
+      "notes": [
+        "Options: margin 10 (jsPDF unit mm), jsPDF a4 portrait, image jpeg 0.98, html2canvas scale 2, pagebreak css+legacy."
+      ],
+      "pages": 2,
+      "pageSizePt": [
+        "595.28x841.89"
+      ],
+      "opensMuPDF": true,
+      "mupdfRepaired": false,
+      "opensPdfjs": true,
+      "pdfjsPages": 2,
+      "xrefOk": true,
+      "textChars": 0,
+      "textExtractable": false,
+      "ids": {
+        "exactlyOnce": 0,
+        "missing": 28,
+        "duplicated": 0,
+        "inOrder": null
+      },
+      "grandTotal": {
+        "value": "55,179.47",
+        "count": 0,
+        "countIgnoringSplits": 0,
+        "exactlyOnce": false
+      },
+      "headerRepeated": null,
+      "headerOnPages": [],
+      "rowSplits": null,
+      "screenOnlyBannerLeaked": null,
+      "textBeyondPageEdge": null,
+      "p1Png": "samples/compare/html2pdf-p1.png",
+      "baseFonts": [
+        "Helvetica",
+        "Helvetica-Bold",
+        "Helvetica-Oblique",
+        "Helvetica-BoldOblique",
+        "Courier",
+        "Courier-Bold",
+        "Courier-Oblique",
+        "Courier-BoldOblique",
+        "Times-Roman",
+        "Times-Bold",
+        "Times-Italic",
+        "Times-BoldItalic",
+        "ZapfDingbats",
+        "Symbol"
+      ],
+      "p1PixelDiffVsNativePct": 10.08
+    },
+    "pdfmake": {
+      "ok": true,
+      "ms": 143.8,
+      "msRuns": [
+        154,
+        143.8,
+        141.3
+      ],
+      "timing": "in-page htmlToPdfmake()+createPdf().getBuffer()",
+      "bytes": 69277,
+      "notes": [
+        "Default pdfmake fonts (Roboto from vfs_fonts.js); html-to-pdfmake options: imagesByReference, tableAutoSize; pageMargins 28.35pt; defaultStyle fontSize 9 (≈12px).",
+        "as-is conversion FAILED: page.evaluate: Error: Invalid image: Error: Unknown image format.",
+        "Workaround applied and succeeded (see log).",
+        "set data-pdfmake='{\"headerRows\":1}' on table.items (html-to-pdfmake does not map <thead> to headerRows by itself)",
+        "replaced <img src=/fixtures/assets/paid-stamp.svg> with inline <svg>",
+        "conversion (html-to-pdfmake) 12 ms of 141 ms total"
+      ],
+      "pages": 3,
+      "pageSizePt": [
+        "595.28x841.89"
+      ],
+      "opensMuPDF": true,
+      "mupdfRepaired": false,
+      "opensPdfjs": true,
+      "pdfjsPages": 3,
+      "xrefOk": true,
+      "textChars": 2806,
+      "textExtractable": true,
+      "ids": {
+        "exactlyOnce": 28,
+        "missing": 0,
+        "duplicated": 0,
+        "inOrder": true
+      },
+      "grandTotal": {
+        "value": "55,179.47",
+        "count": 1,
+        "countIgnoringSplits": 1,
+        "exactlyOnce": true
+      },
+      "headerRepeated": true,
+      "headerOnPages": [
+        {
+          "page": 1,
+          "unitPrice": true
+        },
+        {
+          "page": 2,
+          "unitPrice": true
+        },
+        {
+          "page": 3,
+          "unitPrice": true
+        }
+      ],
+      "rowSplits": [
+        "ITEM-0002 (p1) continues on p2: \"Office chair (refurbished) Ergonomic mesh back, adjustable l\"",
+        "ITEM-0017 (p2) continues on p3: \"Galvanised, 5 tiers, 180 × 90 × 40 cm\""
+      ],
+      "screenOnlyBannerLeaked": true,
+      "textBeyondPageEdge": {
+        "count": 33,
+        "sample": [
+          "p1:\"Am\"",
+          "p1:\"(NP\"",
+          "p1:\"189\"",
+          "p1:\"782\"",
+          "p2:\"Am\"",
+          "p2:\"(NP\""
+        ]
+      },
+      "p1Png": "samples/compare/pdfmake-p1.png",
+      "baseFonts": [
+        "BZZZZZ+Roboto-Regular",
+        "CZZZZZ+Roboto-Medium",
+        "DZZZZZ+Roboto-Italic"
+      ],
+      "p1PixelDiffVsNativePct": 8.9
+    },
+    "pagedjs": {
+      "ok": true,
+      "ms": 214.1,
+      "msRuns": [
+        215.4,
+        199.5,
+        214.1
+      ],
+      "timing": "in-page PagedPolyfill.preview() + Node-side page.pdf()",
+      "bytes": 70811,
+      "notes": [
+        "Paged.js paginate 87 ms + page.pdf 127 ms; Paged.js reported 2 pages"
+      ],
+      "pages": 2,
+      "pageSizePt": [
+        "594.96x841.92"
+      ],
+      "opensMuPDF": true,
+      "mupdfRepaired": false,
+      "opensPdfjs": true,
+      "pdfjsPages": 2,
+      "xrefOk": true,
+      "textChars": 2799,
+      "textExtractable": true,
+      "ids": {
+        "exactlyOnce": 28,
+        "missing": 0,
+        "duplicated": 0,
+        "inOrder": true
+      },
+      "grandTotal": {
+        "value": "55,179.47",
+        "count": 1,
+        "countIgnoringSplits": 1,
+        "exactlyOnce": true
+      },
+      "headerRepeated": false,
+      "headerOnPages": [
+        {
+          "page": 1,
+          "unitPrice": true
+        },
+        {
+          "page": 2,
+          "unitPrice": false
+        }
+      ],
+      "rowSplits": [],
+      "screenOnlyBannerLeaked": false,
+      "textBeyondPageEdge": {
+        "count": 0,
+        "sample": []
+      },
+      "p1Png": "samples/compare/pagedjs-p1.png",
+      "baseFonts": [
+        "AAAAAA+NotoSans-Regular",
+        "BAAAAA+NotoSans-Bold",
+        "CAAAAA+Arial-BoldMT",
+        "DAAAAA+NotoSans-Italic"
+      ],
+      "p1PixelDiffVsNativePct": 3.29
+    }
+  },
+  "visualNotesManual": {
+    "chromium-print": "Reference. Noto Sans, blue header row, zebra rows, rounded party boxes, PAID stamp as vector. p1 ends after ITEM-0013; p2 repeats the table header; p3 holds only the closing note.",
+    "zedpdf": "Visually near-identical to native on p1 (same fonts, colors, page breaks: 13 rows on p1, repeated header on p2, note alone on p3). Sub-pixel text position drift (~1px). PAID stamp is rasterized (zedpdf info warning).",
+    "html2pdf": "Whole page is a JPEG (no text layer, ~1 MB). Fonts/colors look like the screen render, BUT it captured screen media: the red \"SCREEN-ONLY BANNER (hidden in print/export)\" is visible, shifting everything ~30px down. Breaks rows cleanly (13 rows p1) but no repeated header on p2; 2 pages total.",
+    "pdfmake": "Very different layout: class-based CSS is not applied (no flex header, no blue header row, no zebra, no rounded boxes; plain bordered tables). Roboto instead of Noto Sans. Logo rendered at natural size (huge). Product thumbnail rendered at natural size, pushing ITEM-0002 description to p2. Items table overflows the right margin: \"Amount (NPR)\" column is clipped off the page. Screen-only banner rendered (no CSS). Header row does repeat (after data-pdfmake headerRows workaround).",
+    "pagedjs": "p1 visually matches native print (same fonts/colors/break). p2 has NO repeated table header (Paged.js splits the table into a new fragment without the thead), so the content fits on 2 pages and the closing note lands on p2 instead of p3."
+  }
+}

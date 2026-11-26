@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>zedpdf actions fixture</title>
+  <link rel="stylesheet" href="./invoice.css">
+  <!-- Script-tag build: data-zedpdf buttons are bound automatically. -->
+  <script src="../packages/zedpdf/dist/zedpdf.global.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .bar { display: flex; gap: 8px; margin-bottom: 12px; }
+    #viewer { height: 400px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <button id="b-download" data-zedpdf="download" data-zedpdf-target="#invoice" data-zedpdf-filename="INV-2026-0042" data-zedpdf-margin="12mm">Download</button>
+    <button id="b-preview" data-zedpdf="preview" data-zedpdf-target="#invoice" data-zedpdf-preview="#viewer">Preview</button>
+    <button id="b-open" data-zedpdf="open" data-zedpdf-target="#invoice">Open</button>
+    <button id="b-share" data-zedpdf="share" data-zedpdf-target="#invoice" data-zedpdf-title="Invoice 42">Share</button>
+    <button id="b-print" data-zedpdf="print" data-zedpdf-target="#invoice" data-zedpdf-format="Letter">Print</button>
+    <button id="b-missing" data-zedpdf="download" data-zedpdf-target="#nope" data-zedpdf-quiet>Broken</button>
+  </div>
+  <div id="viewer"></div>
+  <div id="mount"></div>
+  <script type="module">
+    import { renderInvoice } from './invoice.js';
+    renderInvoice(document.getElementById('mount'), { preset: 'one-page' });
+    window.__events = [];
+    for (const t of ['zedpdf:done', 'zedpdf:error']) {
+      document.addEventListener(t, (e) => window.__events.push({ type: t, id: e.target.id, action: e.detail.action, pages: e.detail.result?.pageCount, outcome: typeof e.detail.result === 'string' ? e.detail.result : undefined, error: e.detail.error?.code }));
+    }
+    document.documentElement.dataset.ready = '1';
+  </script>
+</body>
+</html>

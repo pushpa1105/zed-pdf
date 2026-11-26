@@ -1,0 +1,11 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.tmp/
+*.tgz
+.tmp*
+research/compare/node_modules/
+examples/*/node_modules/
+examples/*/dist/
+dist-site/

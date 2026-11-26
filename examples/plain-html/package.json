@@ -1,0 +1,8 @@
+{
+  "name": "zedpdf-example-plain-html",
+  "private": true,
+  "description": "Plain HTML + ES module, no bundler. Serve this folder with any static server after `npm install`.",
+  "dependencies": {
+    "zedpdf": "file:../../packages/zedpdf"
+  }
+}

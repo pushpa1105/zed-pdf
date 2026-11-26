@@ -1,0 +1,92 @@
+# Publishes zedpdf to npm and creates a GitHub Release when a version tag (vX.Y.Z) is pushed.
+# Create the tag with `pnpm release:version <patch|minor|major>` (see RELEASING.md).
+#
+# Auth: set the repository secret NPM_TOKEN (an npm "Automation" or granular token with publish rights),
+# or configure npm Trusted Publishing for this repo + workflow and leave NPM_TOKEN unset.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # npm provenance / trusted publishing
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Use a current npm (trusted publishing needs >= 11.5)
+        run: npm install -g npm@latest
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Tag matches package version and CHANGELOG
+        run: node scripts/release.mjs check-tag "${GITHUB_REF_NAME}"
+
+      - name: Build, typecheck, unit tests
+        run: pnpm build && pnpm typecheck && pnpm test
+
+      - name: End-to-end tests
+        run: |
+          pnpm site
+          pnpm exec playwright install --with-deps chromium firefox webkit
+          pnpm exec playwright test
+
+      - name: Release metadata
+        id: meta
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$VERSION" == *-* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+            echo "dist_tag=next" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+            echo "dist_tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+          node scripts/release.mjs notes "$VERSION" > "$RUNNER_TEMP/notes.md"
+
+      - name: Pack
+        working-directory: packages/zedpdf
+        run: npm pack --pack-destination "$RUNNER_TEMP"
+
+      - name: Publish to npm
+        working-directory: packages/zedpdf
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if npm view "zedpdf@${{ steps.meta.outputs.version }}" version >/dev/null 2>&1; then
+            echo "zedpdf@${{ steps.meta.outputs.version }} is already on npm; skipping publish."
+          else
+            npm publish --provenance --access public --tag "${{ steps.meta.outputs.dist_tag }}"
+          fi
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FLAGS=""
+          [ "${{ steps.meta.outputs.prerelease }}" = "true" ] && FLAGS="--prerelease"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
+          else
+            gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP"/zedpdf-*.tgz \
+              --title "zedpdf $GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" $FLAGS
+          fi

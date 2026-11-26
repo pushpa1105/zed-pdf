@@ -1,0 +1,65 @@
+/* Invoice fixture styles. Fonts are local OFL files (Noto Sans / Noto Sans Devanagari). */
+@font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_400Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_700Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_400Regular_Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Noto Sans Devanagari'; src: url('./assets/fonts/NotoSansDevanagari_400Regular.ttf') format('truetype'); font-weight: 400; }
+@font-face { font-family: 'Noto Sans Devanagari'; src: url('./assets/fonts/NotoSansDevanagari_700Bold.ttf') format('truetype'); font-weight: 700; }
+
+.invoice {
+  --ink: #1d2733;
+  --muted: #5b6776;
+  --brand: #105ea6;
+  --line: #d5dce4;
+  --zebra: #f5f8fb;
+  font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: #fff;
+  box-sizing: border-box;
+}
+.invoice *, .invoice *::before, .invoice *::after { box-sizing: border-box; }
+.invoice .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding-bottom: 14px; border-bottom: 3px solid var(--brand); }
+.invoice .brand img { width: 180px; height: auto; display: block; }
+.invoice .brand p { margin: 6px 0 0; color: var(--muted); font-size: 11px; }
+.invoice .meta { text-align: right; }
+.invoice .meta h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: 2px; color: var(--brand); }
+.invoice .meta table { margin-left: auto; border-collapse: collapse; }
+.invoice .meta td { padding: 1px 0 1px 12px; }
+.invoice .meta td:first-child { color: var(--muted); }
+.invoice .parties { display: flex; gap: 16px; margin: 16px 0; }
+.invoice .party { flex: 1; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; background: #fbfcfe; }
+.invoice .party h3 { margin: 0 0 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.invoice .party p { margin: 0; }
+.invoice table.items { width: 100%; border-collapse: collapse; }
+.invoice table.items th { background: var(--brand); color: #fff; text-align: left; font-weight: 700; padding: 7px 8px; font-size: 11px; }
+.invoice table.items td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.invoice table.items tbody tr:nth-child(even) td { background: var(--zebra); }
+.invoice table.items .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.invoice table.items .id { white-space: nowrap; color: var(--muted); font-size: 11px; }
+.invoice table.items tr { break-inside: avoid; }
+.invoice table.items thead { display: table-header-group; }
+.invoice .desc b { color: var(--ink); }
+.invoice .desc .sku { color: var(--muted); font-size: 10.5px; }
+.invoice .desc img.thumb { width: 48px; height: 36px; object-fit: cover; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+.invoice .totals { margin-left: auto; width: 46%; margin-top: 14px; border-collapse: collapse; break-inside: avoid; }
+.invoice .totals td { padding: 4px 8px; }
+.invoice .totals td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.invoice .totals tr.grand td { font-weight: 700; font-size: 15px; border-top: 2px solid var(--ink); padding-top: 8px; color: var(--brand); }
+.invoice .terms { margin-top: 22px; padding: 12px 14px; background: #fff8e6; border-left: 4px solid #e8a400; border-radius: 0 6px 6px 0; break-inside: avoid; }
+.invoice .terms h4 { margin: 0 0 4px; }
+.invoice .terms ul { margin: 4px 0 0; padding-left: 18px; }
+.invoice .badge { display: inline-block; padding: 1px 8px; border-radius: 10px; background: #e6f4f1; color: #1e7a6d; font-size: 10px; font-weight: 700; }
+.invoice .stamp { height: 40px; width: auto; vertical-align: middle; }
+.invoice .note { color: var(--muted); font-size: 10.5px; margin-top: 18px; }
+.invoice .devanagari { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+
+/* Screen-only chrome that must not appear in print or in the export. */
+.invoice .screen-only { display: none; }
+.invoice .print-only { display: none; }
+@media screen { .invoice .screen-only { display: block; } }
+@media print {
+  .invoice .screen-only { display: none !important; }
+  .invoice .print-only { display: block !important; }
+  .invoice table.items th { background: var(--brand) !important; }
+}

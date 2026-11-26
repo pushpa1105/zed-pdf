@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zedpdf kitchen-sink web app fixture</title>
+  <style>
+    @font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_400Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_700Bold.ttf'); font-weight: 700; }
+    @font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_400Regular_Italic.ttf'); font-style: italic; }
+    :root { --brand: #5b3cc4; --ink: #1c1f2a; --muted: #636b7a; --line: #dfe3ea; }
+    body { margin: 0; font-family: 'Noto Sans', sans-serif; color: var(--ink); background: #f3f4f8; }
+    .appbar { position: sticky; top: 0; background: var(--brand); color: #fff; padding: 10px 20px; }
+    .fab { position: fixed; right: 20px; bottom: 20px; background: var(--brand); color: #fff; border-radius: 50%; width: 48px; height: 48px; }
+    #report { background: #fff; max-width: 900px; margin: 20px auto; padding: 28px; font-size: 13px; line-height: 1.5; }
+    h1 { font-size: 24px; margin: 0 0 6px; color: var(--brand); }
+    h2 { font-size: 17px; margin: 22px 0 8px; border-bottom: 2px solid var(--line); padding-bottom: 4px; break-after: avoid; }
+    a { color: var(--brand); }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .kpi { border-radius: 10px; padding: 12px; background: #faf9ff; box-shadow: 0 2px 6px rgba(40, 20, 120, .15); border: 1px solid #e6e1fb; }
+    .kpi b { display: block; font-size: 20px; }
+    figure { margin: 12px 0; }
+    figcaption { color: var(--muted); font-size: 12px; }
+    ul.icons { list-style: none; padding: 0; columns: 2; }
+    ul.icons li { display: flex; align-items: center; gap: 6px; break-inside: avoid; }
+    ul.icons svg { width: 16px; height: 16px; flex: none; }
+    blockquote { margin: 10px 0; padding: 8px 14px; border-left: 4px solid var(--brand); background: #f6f4ff; font-style: italic; }
+    pre { background: #1e1e2e; color: #e6e6f0; padding: 12px; border-radius: 8px; font-size: 12px; white-space: pre; overflow: hidden; }
+    code, kbd { font-family: 'Noto Sans', monospace; background: #eef0f5; padding: 0 4px; border-radius: 3px; }
+    kbd { border: 1px solid #c9ced8; }
+    mark { background: #fff1a8; }
+    .cols { column-count: 2; column-gap: 24px; }
+    table { border-collapse: collapse; width: 100%; }
+    caption { caption-side: top; text-align: left; font-weight: 700; padding: 6px 0; }
+    th, td { border: 1px solid var(--line); padding: 5px 7px; vertical-align: top; text-align: left; }
+    thead th { background: #efeafd; }
+    table.inner { width: 100%; font-size: 12px; }
+    table.inner th { background: #f6f6f6; }
+    .num { text-align: right; }
+    .badge { display: inline-block; transform: translateY(-1px); background: #e3f6ec; color: #17633e; border-radius: 9px; padding: 0 7px; font-size: 11px; }
+    .faded { opacity: .55; }
+    form.profile { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; align-items: center; }
+    form.profile input, form.profile select, form.profile textarea { font: inherit; padding: 4px 6px; border: 1px solid #c9ced8; border-radius: 5px; }
+    .longword { overflow-wrap: anywhere; }
+    @media print { .no-print { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="appbar no-print">App navigation bar (sticky, not exported)</div>
+  <button class="fab no-print">+</button>
+
+  <article id="report">
+    <h1>KS-01 Quarterly operations report</h1>
+    <p>KS-02 Read the <a href="https://example.com/terms?ref=q3">service terms</a> or email <a href="mailto:ops@example.com">ops@example.com</a>. Status: <span class="badge">ON TRACK</span> <span class="faded">(provisional)</span></p>
+
+    <h2>KS-03 Dashboard</h2>
+    <div class="kpis">
+      <div class="kpi">KS-04 Revenue <b>NPR 4.2M</b></div>
+      <div class="kpi">KS-05 Orders <b>1,284</b></div>
+      <div class="kpi">KS-06 Returns <b>2.1%</b></div>
+      <div class="kpi">KS-07 NPS <b>61</b></div>
+    </div>
+    <figure>
+      <canvas id="chart" width="840" height="240" style="width:100%;height:auto"></canvas>
+      <figcaption>KS-08 Figure 1. Monthly orders (canvas chart)</figcaption>
+    </figure>
+
+    <h2>KS-09 Highlights</h2>
+    <ul class="icons" id="icons"></ul>
+    <ol>
+      <li>KS-10 Warehouse moved to Balaju
+        <ul><li>Inventory recount completed</li><li>Pick time down <mark>18%</mark></li></ul>
+      </li>
+      <li>KS-11 New supplier contracts (H<sub>2</sub>O treatment, 10<sup>3</sup> units)</li>
+    </ol>
+    <dl><dt>KS-12 SLA</dt><dd>99.9% monthly uptime, <del>98%</del> <ins>99.9%</ins> since July.</dd></dl>
+    <blockquote>KS-13 “Ship it when it's right, not when it's rushed.”</blockquote>
+<pre>KS-14 deploy.sh
+  set -e
+  npm ci &amp;&amp; npm run build
+  rsync -av dist/ server:/srv/app   # indentation preserved</pre>
+    <p>Press <kbd>Ctrl</kbd> + <kbd>P</kbd> to print, or call <code>exportPdf(el)</code>.</p>
+    <details open><summary>KS-15 Details (open)</summary><p>Expanded content is exported.</p></details>
+    <details><summary>KS-16 Details (closed)</summary><p>KS-HIDDEN must not appear.</p></details>
+
+    <h2>KS-17 Notes in two columns</h2>
+    <div class="cols"><p>KS-18 Lorem-free filler text describing operations in plain language. The team consolidated three storage sites into one, retrained staff and introduced barcode scanning at every bay, which reduced mis-picks and shortened the daily cycle count considerably.</p></div>
+
+    <h2>KS-19 Regional table with nested tables</h2>
+    <table id="regions">
+      <caption>KS-20 Table 1. Regions</caption>
+      <colgroup><col style="width:22%"><col><col style="width:18%"></colgroup>
+      <thead><tr><th>Region</th><th>Breakdown</th><th class="num">Total</th></tr></thead>
+      <tbody>
+        <tr><td>KS-21 Bagmati</td><td>
+          <table class="inner"><thead><tr><th>Store</th><th class="num">Sales</th></tr></thead>
+            <tbody><tr><td>NEST-1 Lazimpat</td><td class="num">1,200</td></tr><tr><td>NEST-2 Patan</td><td class="num">980</td></tr><tr><td>NEST-3 Bhaktapur</td><td class="num">640</td></tr></tbody></table>
+        </td><td class="num">2,820</td></tr>
+        <tr><td rowspan="2">KS-22 Gandaki</td><td>Pokhara lakeside</td><td class="num">1,100</td></tr>
+        <tr><td>Besisahar</td><td class="num">210</td></tr>
+        <tr><td colspan="2">KS-23 Combined minor regions (colspan)</td><td class="num">450</td></tr>
+        <tr><td>KS-24 Koshi</td><td id="deep-cell"></td><td class="num">DEEP-TOTAL</td></tr>
+        <tr><td>KS-25 Lumbini</td><td>After the long nested table</td><td class="num">300</td></tr>
+      </tbody>
+    </table>
+
+    <h2>KS-26 Profile form</h2>
+    <form class="profile">
+      <label>Name</label><input value="KS-27 Jane Doe">
+      <label>Plan</label><select><option>Basic</option><option selected>KS-28 Business</option></select>
+      <label>Notes</label><textarea rows="2">KS-29 Prefers email.</textarea>
+      <label>Active</label><span><input type="checkbox" checked> enabled</span>
+    </form>
+    <p class="longword">KS-30 https://example.com/really/long/path/without/spaces/that/must/wrap/somewhere/0123456789abcdefghijklmnopqrstuvwxyz</p>
+    <p>KS-31 End of report.</p>
+  </article>
+
+  <script>
+    // Canvas chart
+    const c = document.getElementById('chart');
+    const x = c.getContext('2d');
+    const vals = [320, 410, 380, 520, 610, 590, 700, 760, 720, 810, 880, 940];
+    x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+    vals.forEach((v, i) => { x.fillStyle = i % 2 ? '#8f78e8' : '#5b3cc4'; x.fillRect(30 + i * 66, 220 - v / 4.6, 44, v / 4.6); });
+    x.fillStyle = '#1c1f2a'; x.font = '14px sans-serif'; x.fillText('Orders per month', 30, 20);
+    // Repeated inline SVG icons (should be embedded once)
+    const icon = '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.5 8.2l2.2 2.2 4.8-4.8" stroke="#fff" stroke-width="1.8" fill="none"/></svg>';
+    document.getElementById('icons').innerHTML = ['Same-day dispatch', 'Barcode scanning', 'Solar backup', 'Two new trucks', 'Staff training', 'Cold storage'].map((t, i) => `<li style="color:${i % 2 ? '#17633e' : '#5b3cc4'}">${icon}<span>ICON-${i + 1} ${t}</span></li>`).join('');
+    // A nested table long enough to push its outer row past a page
+    document.getElementById('deep-cell').innerHTML = '<table class="inner"><thead><tr><th>Branch</th><th class="num">Units</th></tr></thead><tbody>' +
+      Array.from({ length: 40 }, (_, i) => `<tr><td>DEEP-${String(i + 1).padStart(2, '0')} Branch ${i + 1}</td><td class="num">${(i * 37) % 400 + 20}</td></tr>`).join('') + '</tbody></table>';
+    document.documentElement.dataset.ready = '1';
+  </script>
+</body>
+</html>

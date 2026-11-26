@@ -1,0 +1,52 @@
+{
+  "steps": [
+    {
+      "name": "pack",
+      "tarball": "zedpdf-0.1.0.tgz",
+      "files": 28,
+      "sizeKB": 316.7,
+      "runtimeDependencies": 0,
+      "exports": [
+        ".",
+        "./global",
+        "./package.json"
+      ]
+    },
+    {
+      "name": "consumer:plain-html",
+      "installedVersion": "0.1.0",
+      "pages": 2,
+      "valid": true,
+      "idsOnceInOrder": true,
+      "headerOnEveryPage": true,
+      "themeColour": true,
+      "fontEmbedded": true,
+      "status": "2 pages, 0 warnings",
+      "pageErrors": []
+    },
+    {
+      "name": "consumer:vue",
+      "installedVersion": "0.1.0",
+      "pages": 2,
+      "valid": true,
+      "idsOnceInOrder": true,
+      "headerOnEveryPage": true,
+      "themeColour": true,
+      "fontEmbedded": true,
+      "status": "2 pages, 0 warnings",
+      "pageErrors": []
+    },
+    {
+      "name": "consumer:react",
+      "installedVersion": "0.1.0",
+      "pages": 2,
+      "valid": true,
+      "idsOnceInOrder": true,
+      "headerOnEveryPage": true,
+      "themeColour": true,
+      "fontEmbedded": true,
+      "status": "2 pages, 0 warnings",
+      "pageErrors": []
+    }
+  ]
+}

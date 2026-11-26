@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation · zedpdf</title>
+  <meta name="description" content="zedpdf documentation: installation, quick start, framework usage, API reference, page breaks, fonts, images, file size, warnings and troubleshooting.">
+  <meta name="theme-color" content="#f4f1e9">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <button class="icon-btn menu-btn" id="menu" aria-label="Open navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <a class="site-brand" href="./">zed<i>pdf</i></a>
+      <span class="badge-ver" id="ver">docs</span>
+      <nav aria-label="Main">
+        <a href="./#playground">Try it</a>
+        <a href="./#compare">Compared</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="{{REPO}}">GitHub</a>
+      </nav>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode" title="Toggle theme">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="wrap docs">
+    <aside class="sidebar" id="sidebar" aria-label="Documentation">
+      <h4>Getting started</h4>
+      <a href="#introduction">Introduction</a>
+      <a href="#installation">Installation</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="#actions">Actions</a>
+      <a href="#frameworks">Frameworks</a>
+      <h4>Guides</h4>
+      <a href="#page-setup">Page size &amp; margins</a>
+      <a href="#header-footer">Headers, footers, page numbers</a>
+      <a href="#styling">Styling the export</a>
+      <a href="#page-breaks">Page breaks &amp; tables</a>
+      <a href="#fonts">Fonts</a>
+      <a href="#images">Images &amp; file size</a>
+      <a href="#links-forms">Links, forms &amp; charts</a>
+      <a href="#languages">Languages &amp; complex scripts</a>
+      <a href="#warnings">Warnings &amp; strict mode</a>
+      <a href="#cancel">Cancellation &amp; progress</a>
+      <a href="#native-print">Native print</a>
+      <h4>Reference</h4>
+      <a href="#api-pdf">pdf() &amp; bindActions()</a>
+      <a href="#api">exportPdf()</a>
+      <a href="#api-print">printElement() &amp; savePdf()</a>
+      <a href="#errors">Errors</a>
+      <a href="#warning-codes">Warning codes</a>
+      <a href="#support">Supported HTML &amp; CSS</a>
+      <h4>Help</h4>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#how">How it works</a>
+      <h4>Project</h4>
+      <a href="changelog.html">Changelog</a>
+      <a href="{{REPO}}/issues">Report an issue</a>
+      <a href="{{REPO}}">Source on GitHub</a>
+    </aside>
+
+    <article class="prose" id="content">
+      <!-- ============================================================ intro -->
+      <section id="introduction">
+        <p class="eyebrow">Documentation</p>
+        <h1>zedpdf</h1>
+        <p><b>zedpdf</b> turns an HTML element in your page into a real PDF, entirely in the browser. Typical uses are an invoice, quotation, purchase order, statement, report or dashboard. You pass the element and get back a PDF <code>Blob</code> that looks like the browser's own print.</p>
+        <p>The text in the PDF is real text, set in your own fonts, so people can select it, search it and copy it out. Pages break between table rows and lines rather than through them, and table headers repeat on each page. Files stay small because fonts only carry the letters used and photos are stored at print size.</p>
+        <p>It all happens in the browser tab. There is no server, no headless browser and nothing to install besides the package itself. When something on your page can't be reproduced, you get a warning naming the element and what to do about it, instead of a quietly wrong PDF.</p>
+        <div class="callout"><b>In one line.</b> <span><code>pdf('#invoice').download()</code> saves it; <code>.print()</code>, <code>.open()</code>, <code>.preview(el)</code>, <code>.share()</code> and <code>.file()</code> do the other things you'd expect. On a plain HTML page, <code>&lt;button data-zedpdf="download" data-zedpdf-target="#invoice"&gt;</code> does the same with no script of your own.</span></div>
+      </section>
+
+      <!-- ============================================================ install -->
+      <section id="installation">
+        <h2>Installation</h2>
+        <h3 id="install-npm">With a package manager</h3>
+        <div class="code"><div class="file">terminal<button class="copy" data-copy="#c-npm">Copy</button></div><pre id="c-npm">npm install zedpdf      # or: pnpm add zedpdf / yarn add zedpdf</pre></div>
+        <div class="code"><pre>import { pdf, exportPdf, printElement, bindActions } from 'zedpdf';</pre></div>
+        <p>The package is ESM-only and ships TypeScript types.</p>
+
+        <h3 id="install-script">Plain HTML with a script tag (no npm, no build step)</h3>
+        <p>Copy <code>dist/zedpdf.global.js</code> from the package into your site. The file is 37 KB gzipped. It exposes a global <code>ZedPdf</code>:</p>
+        <div class="code"><pre>&lt;script src="/js/zedpdf.global.js"&gt;&lt;/script&gt;
+
+&lt;!-- that's all: these buttons work as they are --&gt;
+&lt;button data-zedpdf="download" data-zedpdf-target="#invoice"&gt;Download PDF&lt;/button&gt;
+&lt;button data-zedpdf="print" data-zedpdf-target="#invoice"&gt;Print&lt;/button&gt;
+
+&lt;script&gt;
+  // or from your own code:
+  ZedPdf.pdf('#invoice').open();
+&lt;/script&gt;</pre></div>
+
+        <h3 id="install-module">Plain HTML with an ES module</h3>
+        <div class="code"><pre>&lt;script type="importmap"&gt;
+  { "imports": { "zedpdf": "./node_modules/zedpdf/dist/zedpdf.js" } }
+&lt;/script&gt;
+&lt;script type="module"&gt;
+  import { exportPdf, savePdf } from 'zedpdf';
+&lt;/script&gt;</pre></div>
+
+        <h3 id="install-cdn">From a CDN</h3>
+        <p>The package is mirrored by public CDNs. Pin the exact version so an update never changes your output unexpectedly. Using a CDN is optional, because the library never loads anything from a CDN itself.</p>
+        <div class="code"><pre>import { exportPdf } from 'https://cdn.jsdelivr.net/npm/zedpdf@{{VERSION}}/dist/zedpdf.js';</pre></div>
+
+        <div class="callout warn"><b>Serve over http(s).</b> <span>Browsers refuse ES modules from <code>file://</code>, and zedpdf reads your font and image files in order to embed them. Any local server works, for example <code>npx serve .</code>.</span></div>
+        <h3 id="requirements">Browser requirements</h3>
+        <p>zedpdf needs <code>CompressionStream</code> (Chrome/Edge 80+, Firefox 113+, Safari 16.4+), <code>Range.getClientRects</code> and <code>document.fonts</code>. It is tested in Chromium, Firefox and WebKit. See <a href="#support">Supported HTML &amp; CSS</a>.</p>
+      </section>
+
+      <!-- ============================================================ quick start -->
+      <section id="quick-start">
+        <h2>Quick start</h2>
+        <h3 id="qs-download">Download button</h3>
+        <div class="code"><pre>import { pdf } from 'zedpdf';
+
+downloadButton.addEventListener('click', () =&gt;
+  pdf('#invoice', {
+    format: 'A4',  // 'A4' | 'Letter' | 'A3' | 'A5' | 'Legal' | { width, height }
+    margin: '12mm',
+    title: 'Invoice INV-2026-0042',
+  }).download(),  // saves "Invoice-INV-2026-0042.pdf"
+);</pre></div>
+        <p>Prefer no JavaScript at all? See <a href="#data-attributes">buttons without JavaScript</a>.</p>
+        <h3 id="qs-preview">Preview in the page</h3>
+        <div class="code"><pre>await pdf('#invoice').preview('#viewer');  // an iframe, or a container that gets one</pre></div>
+        <h3 id="qs-upload">Upload or email it</h3>
+        <div class="code"><pre>const body = new FormData();
+body.append('file', await pdf('#invoice').file('invoice.pdf'));
+await fetch('/api/invoices/42/pdf', { method: 'POST', body });</pre></div>
+        <h3 id="qs-lower">The lower-level function</h3>
+        <p><code>exportPdf(element, options)</code> is what <code>pdf()</code> uses underneath. It returns the same result object, with the same actions: <code>(await exportPdf(el)).download()</code>.</p>
+      </section>
+
+      <!-- ============================================================ actions -->
+      <section id="actions">
+        <h2>Actions</h2>
+        <p>Most apps want to do something with the PDF straight away: save it, print it, show it, send it. <code>pdf()</code> gives you a handle on an element with all of those as methods. Each call takes a fresh snapshot, so the PDF always matches what is on screen at that moment.</p>
+        <div class="code"><pre>import { pdf } from 'zedpdf';
+
+const invoice = pdf('#invoice', {  // an element or a CSS selector
+  format: 'A4',
+  margin: '12mm',
+  title: 'Invoice INV-2026-0042',
+  filename: 'INV-2026-0042',  // used by download/share/file; ".pdf" is added
+});
+
+await invoice.download();  // saves INV-2026-0042.pdf
+await invoice.print();  // the browser's print dialog, just this element
+await invoice.open();  // opens the PDF in a new tab
+await invoice.preview('#viewer');  // shows it inside #viewer
+await invoice.share();  // share sheet on phones; downloads elsewhere
+const file = await invoice.file();  // a File, for uploads
+const blob = await invoice.blob();  // the raw Blob
+const result = await invoice.render();  // everything: blob, pageCount, warnings + actions</pre></div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Method</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>download(name?)</code></td><td>Saves the PDF through the browser's normal download. The name comes from <code>name</code>, else <code>filename</code>, else the title, else <code>document.pdf</code>.</td></tr>
+            <tr><td><code>print()</code></td><td>Opens the native print dialog for just this element; resolves after it closes.</td></tr>
+            <tr><td><code>open()</code></td><td>Opens a new tab immediately (so popup blockers allow it), then shows the PDF in it. If popups are blocked anyway, it downloads instead.</td></tr>
+            <tr><td><code>preview(where)</code></td><td><code>where</code> is an <code>&lt;iframe&gt;</code>, a container (an iframe is created inside it) or a selector. Calling it again replaces the PDF and releases the old one.</td></tr>
+            <tr><td><code>share(data?)</code></td><td>Uses the system share sheet where the browser supports sharing files (most phones). Resolves to <code>'shared'</code>, <code>'cancelled'</code> or <code>'downloaded'</code> (the fallback).</td></tr>
+            <tr><td><code>file(name?)</code> / <code>blob()</code></td><td>The PDF as a <code>File</code> (ready for <code>FormData</code>) or a <code>Blob</code>.</td></tr>
+            <tr><td><code>render()</code></td><td>The full result: <code>blob</code>, <code>pageCount</code>, <code>warnings</code>, <code>timings</code>, plus every action below.</td></tr>
+          </tbody>
+        </table></div>
+        <p>Every method also accepts per-call options, e.g. <code>invoice.download('copy.pdf', { margin: '20mm' })</code>.</p>
+
+        <h3 id="result-actions">Doing several things with one export</h3>
+        <p>The result of <code>render()</code>, and of <code>exportPdf()</code>, carries the same actions, so you can export once and reuse the file:</p>
+        <div class="code"><pre>const result = await pdf('#invoice').render();
+result.preview('#viewer');  // show it
+saveButton.onclick = () =&gt; result.download();
+uploadButton.onclick = () =&gt; upload(result.file('invoice.pdf'));
+// result.url() gives a stable object URL; call result.dispose() when you no longer need it.</pre></div>
+
+        <h3 id="data-attributes">Buttons without JavaScript</h3>
+        <p>With the script-tag build, any element with <code>data-zedpdf</code> becomes a PDF button. Nothing else is needed:</p>
+        <div class="code"><pre>&lt;script src="zedpdf.global.js"&gt;&lt;/script&gt;
+
+&lt;button data-zedpdf="download" data-zedpdf-target="#invoice" data-zedpdf-filename="INV-42"&gt;Download&lt;/button&gt;
+&lt;button data-zedpdf="print"    data-zedpdf-target="#invoice" data-zedpdf-format="Letter"&gt;Print&lt;/button&gt;
+&lt;button data-zedpdf="open"     data-zedpdf-target="#invoice"&gt;Open&lt;/button&gt;
+&lt;button data-zedpdf="preview"  data-zedpdf-target="#invoice" data-zedpdf-preview="#viewer"&gt;Preview&lt;/button&gt;
+&lt;button data-zedpdf="share"    data-zedpdf-target="#invoice" data-zedpdf-title="Invoice 42"&gt;Share&lt;/button&gt;</pre></div>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Attribute</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>data-zedpdf</code></td><td><code>download</code>, <code>print</code>, <code>open</code>, <code>preview</code> or <code>share</code></td></tr>
+            <tr><td><code>data-zedpdf-target</code></td><td>Selector of the element to export. Without it, the nearest ancestor with <code>data-zedpdf-root</code> is used.</td></tr>
+            <tr><td><code>data-zedpdf-preview</code></td><td>Where <code>preview</code> shows the PDF (default: <code>[data-zedpdf-viewer]</code>)</td></tr>
+            <tr><td><code>data-zedpdf-filename</code>, <code>-title</code></td><td>File name and document title</td></tr>
+            <tr><td><code>data-zedpdf-format</code>, <code>-orientation</code>, <code>-margin</code></td><td>Page setup, e.g. <code>Letter</code>, <code>landscape</code>, <code>12mm</code></td></tr>
+            <tr><td><code>data-zedpdf-media</code>, <code>-css</code>, <code>-strict</code>, <code>-complex-scripts</code></td><td>The matching <a href="#api">options</a></td></tr>
+            <tr><td><code>data-zedpdf-options</code></td><td>Any options as JSON, e.g. <code>'{"maxImageDpi":200}'</code></td></tr>
+          </tbody>
+        </table></div>
+        <p>While a button is working it is disabled and has <code>aria-busy="true"</code>, which you can style (<code>[aria-busy="true"] { cursor: progress }</code>). When it finishes it fires a bubbling event:</p>
+        <div class="code"><pre>document.addEventListener('zedpdf:done', (e) =&gt; {
+  const { action, result } = e.detail;  // result.pageCount, result.warnings …
+});
+document.addEventListener('zedpdf:error', (e) =&gt; {
+  console.warn(e.detail.action, e.detail.error.code);
+});</pre></div>
+        <p>The script-tag build binds buttons automatically. With the ES module, call <code>bindActions()</code> once (it returns a function that unbinds). To stop the script-tag build from binding, add <code>data-zedpdf-manual</code> to its <code>&lt;script&gt;</code> tag.</p>
+        <div class="code"><pre>import { bindActions } from 'zedpdf';
+const unbind = bindActions();  // or bindActions(someContainer)</pre></div>
+      </section>
+
+      <!-- ============================================================ frameworks -->
+      <section id="frameworks">
+        <h2>Frameworks</h2>
+        <p>zedpdf takes an ordinary <code>HTMLElement</code>, so any framework that gives you a DOM element works without a wrapper. Styles defined anywhere in the page are reproduced: Vue scoped styles, CSS modules, Tailwind, CSS-in-JS, and themes set on parent elements.</p>
+        <div class="code" data-tabs>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-pane="vue">Vue 3</button>
+            <button role="tab" aria-selected="false" data-pane="react">React</button>
+            <button role="tab" aria-selected="false" data-pane="angular">Angular</button>
+            <button role="tab" aria-selected="false" data-pane="svelte">Svelte</button>
+          </div>
+<pre data-pane="vue">&lt;script setup&gt;
+import { ref } from 'vue';
+import { pdf } from 'zedpdf';
+
+const invoice = ref(null);  // a component ref? use invoice.value.$el
+const download = () => pdf(invoice.value, { format: 'A4', filename: 'invoice' }).download();
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;button @click="download"&gt;Download PDF&lt;/button&gt;
+  &lt;div ref="invoice"&gt;&lt;InvoiceDoc /&gt;&lt;/div&gt;
+&lt;/template&gt;</pre>
+<pre data-pane="react" hidden>import { useRef } from 'react';
+import { pdf } from 'zedpdf';
+
+export function InvoicePage() {
+  const ref = useRef(null);
+  const download = () =&gt; pdf(ref.current, { format: 'Letter', filename: 'invoice' }).download();
+  return (
+    &lt;&gt;
+      &lt;button onClick={download}&gt;Download PDF&lt;/button&gt;
+      &lt;article ref={ref}&gt;…&lt;/article&gt;
+    &lt;/&gt;
+  );
+}</pre>
+<pre data-pane="angular" hidden>import { Component, ElementRef, ViewChild } from '@angular/core';
+import { pdf } from 'zedpdf';
+
+@Component({
+  selector: 'app-invoice',
+  template: `&lt;button (click)="download()"&gt;Download PDF&lt;/button&gt;
+             &lt;article #invoice&gt;…&lt;/article&gt;`,
+})
+export class InvoiceComponent {
+  @ViewChild('invoice') invoice!: ElementRef&lt;HTMLElement&gt;;
+  download() {
+    return pdf(this.invoice.nativeElement, { filename: 'invoice' }).download();
+  }
+}</pre>
+<pre data-pane="svelte" hidden>&lt;script&gt;
+  import { pdf } from 'zedpdf';
+  let invoice;
+  const download = () =&gt; pdf(invoice, { filename: 'invoice' }).download();
+&lt;/script&gt;
+
+&lt;button on:click={download}&gt;Download PDF&lt;/button&gt;
+&lt;article bind:this={invoice}&gt;…&lt;/article&gt;</pre>
+        </div>
+        <p class="muted">The Vue 3 and React examples are installed and tested from the packed npm tarball. The Angular and Svelte snippets use the same API but are not separately tested.</p>
+      </section>
+
+      <!-- ============================================================ page setup -->
+      <section id="page-setup">
+        <h2>Page size &amp; margins</h2>
+        <div class="code"><pre>await pdf(el, { format: 'A4', orientation: 'portrait', margin: '10mm' }).download();  // defaults
+await pdf(el, { format: 'Letter', orientation: 'landscape', margin: '0.5in' }).download();
+await pdf(el, { format: { width: '210mm', height: '99mm' }, margin: 0 }).download();  // custom (e.g. a DL slip)
+await pdf(el, { margin: { top: '20mm', right: '12mm', bottom: '20mm', left: '12mm' } }).download();</pre></div>
+        <p>Lengths can be numbers (CSS px) or strings in <code>mm</code>, <code>cm</code>, <code>in</code>, <code>pt</code>, <code>pc</code> or <code>px</code>. The element is laid out at the page's printable width, which is the paper width minus the left and right margins, just like print. Responsive CSS (<code>@media (max-width)</code>) therefore applies exactly as it would when printing.</p>
+      </section>
+
+      <!-- ============================================================ header footer -->
+      <section id="header-footer">
+        <h2>Headers, footers &amp; page numbers</h2>
+        <p>Pass HTML that is repeated on every page. Elements with the class <code>pageNumber</code> or <code>totalPages</code> receive the numbers. This is the same convention as Chromium's header templates.</p>
+        <div class="code"><pre>await pdf(el, {
+  header: { html: '&lt;div style="font: 10px sans-serif; text-align: right"&gt;ACME Ltd · Confidential&lt;/div&gt;' },
+  footer: {
+    html: `&lt;div style="display:flex; justify-content:space-between; font:10px sans-serif; border-top:1px solid #ddd; padding-top:6px"&gt;
+             &lt;span&gt;INV-2026-0042&lt;/span&gt;
+             &lt;span&gt;Page &lt;span class="pageNumber"&gt;&lt;/span&gt; of &lt;span class="totalPages"&gt;&lt;/span&gt;&lt;/span&gt;
+           &lt;/div&gt;`,
+  },
+}).download();</pre></div>
+        <p>The header and footer sit inside the margins, and their height is taken from the content area. Your page's stylesheets and fonts apply to them too.</p>
+      </section>
+
+      <!-- ============================================================ styling -->
+      <section id="styling">
+        <h2>Styling the export</h2>
+        <h3 id="print-rules">Your <code>@media print</code> rules apply</h3>
+        <p>By default (<code>media: 'print'</code>), <code>exportPdf</code> uses your print stylesheet: <code>@media print</code> rules are applied and <code>@media screen</code> rules are switched off. Buttons, navigation and other screen-only chrome that you already hide when printing are hidden in the PDF too. Pass <code>media: 'screen'</code> to export the screen appearance instead.</p>
+        <h3 id="export-css">Export-only CSS</h3>
+        <p>Use <code>css</code> for rules that should only apply to the PDF. The export root also carries the class <code>zedpdf-export</code>.</p>
+        <div class="code"><pre>await pdf(el, {
+  css: `
+    .no-pdf, .toolbar { display: none !important; }
+    .invoice { box-shadow: none; }
+    .totals { break-inside: avoid; }
+  `,
+}).download();</pre></div>
+        <h3 id="context">What gets copied</h3>
+        <p>The element is cloned into a hidden frame together with every stylesheet in the page (including CSS-in-JS and adopted stylesheets), the attributes of <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code>, and a lightweight copy of each parent element. Selectors such as <code>.theme-dark .invoice</code>, CSS variables, inherited fonts and colours therefore resolve exactly as on screen. Your live page, its scroll position and its state are never modified.</p>
+        <div class="callout"><b>Tip.</b> <span>Scrollable areas inside the element are expanded so that all of their content is exported. Set <code>expandScrollContainers: false</code> to keep the clipped view.</span></div>
+      </section>
+
+      <!-- ============================================================ page breaks -->
+      <section id="page-breaks">
+        <h2>Page breaks &amp; tables</h2>
+        <p>Pages break only between blocks, table rows and lines of text. Your CSS controls the choices:</p>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>CSS</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>break-before: page</code> / <code>break-after: page</code></td><td>Force a new page (never creates a blank first or last page)</td></tr>
+            <tr><td><code>break-inside: avoid</code></td><td>Keep a block (e.g. totals, signature, a card) together when it fits on a page</td></tr>
+            <tr><td><code>break-after: avoid</code></td><td>Keep a heading with what follows (or pass <code>keepHeadingsWithNext: true</code>)</td></tr>
+            <tr><td><code>orphans</code> / <code>widows</code></td><td>Minimum lines of a paragraph at the bottom and top of a page (default 2)</td></tr>
+          </tbody>
+        </table></div>
+        <h3 id="table-rules">How tables are handled</h3>
+        <ul>
+          <li><b>Header rows (<code>&lt;thead&gt;</code>) repeat</b> on every page a table spans. Space is reserved for them first, and a header is never left alone at the bottom of a page. Turn this off with <code>repeatTableHeader: false</code>.</li>
+          <li><b>Rows stay whole</b> when they fit on a page. A row that exactly fills the remaining space stays.</li>
+          <li><b>Rows taller than a page</b> split between lines of text, each cell continuing independently. Amounts and images are painted once, and the next row starts after every cell has finished.</li>
+          <li><b>Footer rows (<code>&lt;tfoot&gt;</code>)</b> such as invoice totals are drawn once, after the last row.</li>
+          <li><b>Columns never drift.</b> Widths, alignment, backgrounds and borders are identical on every page.</li>
+          <li><b>Nested tables</b> paginate inside their cell, with their own header repeated.</li>
+          <li><b><code>colspan</code></b> is supported. <b><code>rowspan</code></b> groups are kept together when they fit on a page; a group taller than a page is split with a <code>rowspan-split</code> warning.</li>
+          <li>A header taller than a quarter of the page is not repeated, so that body rows still fit. You'll get a warning.</li>
+        </ul>
+        <h3 id="oversized">Content taller than a page</h3>
+        <p>An image taller than a page is scaled down to fit by default. Set <code>oversizedImage: 'slice'</code> to split it across pages instead. Other content that cannot break, such as a very tall <code>inline-block</code>, is sliced, and you'll get a warning.</p>
+      </section>
+
+      <!-- ============================================================ fonts -->
+      <section id="fonts">
+        <h2>Fonts</h2>
+        <p>To embed a font, zedpdf needs the font file. A CSS <code>font-family</code> name alone is not enough. It finds font files automatically from your <code>@font-face</code> rules (TTF, OTF or WOFF) and embeds only the characters used, with a Unicode map so that copy and paste works.</p>
+        <div class="code"><pre>@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Regular.woff') format('woff');     /* TTF / OTF / WOFF are embeddable */
+  font-weight: 400;
+}</pre></div>
+        <p>You can also hand zedpdf the bytes directly, for example when fonts are bundled or loaded with authentication:</p>
+        <div class="code"><pre>await pdf(el, {
+  fonts: [
+    { family: 'Inter', weight: 400, src: '/fonts/Inter-Regular.ttf' },
+    { family: 'Inter', weight: 700, src: await (await fetch('/fonts/Inter-Bold.ttf')).arrayBuffer() },
+  ],
+}).download();</pre></div>
+        <ul>
+          <li><b>System fonts</b> (Arial, Segoe UI, Helvetica…) cannot be read by web pages. Text in them falls back to the built-in PDF fonts (Helvetica, Times or Courier), still at the exact measured positions, and you'll get a <code>font-substituted</code> warning. For a pixel match, use a web font.</li>
+          <li><b>WOFF2</b> files are not supported yet. Add a WOFF or TTF <code>src</code> alongside the WOFF2.</li>
+          <li><b>Missing characters</b> are reported as <code>missing-glyph</code>. They are never silently replaced.</li>
+        </ul>
+      </section>
+
+      <!-- ============================================================ images -->
+      <section id="images">
+        <h2>Images &amp; file size</h2>
+        <p>Images are embedded at the resolution they need for the size they are printed at, and no more:</p>
+        <ul>
+          <li><b><code>maxImageDpi</code></b> (default <code>300</code>): a 4000×3000 photo shown as a 240 px thumbnail is downsampled to 750 px wide. Set <code>false</code> to keep originals.</li>
+          <li><b>JPEG</b> files that are already small enough are embedded byte for byte, with no recompression. Photos that are downsampled are re-encoded at <code>jpegQuality</code> (default <code>0.85</code>).</li>
+          <li><b>PNG</b> keeps transparency. Logos and graphics stay lossless.</li>
+          <li><b>SVG</b>, WebP, GIF and <code>&lt;canvas&gt;</code> are rasterized (SVG and canvas at <code>rasterScale</code> × size, 288 dpi by default).</li>
+          <li>The same image used many times, such as a logo on every page or an icon in every row, is <b>stored once</b>.</li>
+        </ul>
+        <p>Fonts are subset to the glyphs used, and drawing instructions are deduplicated. A typical two-page invoice comes to about 50 KB, smaller than the browser's own print output.</p>
+        <h3 id="asset-resolver">Images behind authentication or another domain</h3>
+        <p>zedpdf reads image bytes with <code>fetch</code>. Images on another domain need CORS headers. If your app already has the bytes, or needs to add an auth header, supply them yourself:</p>
+        <div class="code"><pre>await pdf(el, {
+  assetResolver: async (url, kind) =&gt; {  // kind: 'image' | 'font'
+    if (url.startsWith('https://files.example.com/')) {
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      return res.arrayBuffer();
+    }
+    return null;  // let zedpdf fetch it normally
+  },
+}).download();</pre></div>
+        <p>An image that cannot be read produces an <code>asset-unavailable</code> warning naming the element and URL. The rest of the document is still exported.</p>
+      </section>
+
+      <!-- ============================================================ links forms -->
+      <section id="links-forms">
+        <h2>Links, forms &amp; charts</h2>
+        <ul>
+          <li><b>Links</b>: text inside <code>&lt;a href&gt;</code> with an <code>http(s):</code>, <code>mailto:</code> or <code>tel:</code> URL becomes a clickable link in the PDF. In-page <code>#anchor</code> links are not linked yet.</li>
+          <li><b>Form controls</b>: inputs, selects and textareas are drawn with their box and current value. Checkboxes and radio buttons are drawn as vector shapes in the browser's default style.</li>
+          <li><b>Charts</b>: <code>&lt;canvas&gt;</code> charts (Chart.js, ECharts and similar) are captured at their pixel resolution. SVG charts are rasterized at high resolution.</li>
+          <li><b>Lists, <code>details</code>, <code>pre</code>, multi-column text</b>: bullets and disclosure triangles are drawn as shapes. Closed <code>details</code> content stays hidden, whitespace in <code>pre</code> is preserved, and multi-column text keeps its reading order.</li>
+          <li><b>Generated content</b>: text from <code>::before</code> and <code>::after</code> is exported. <code>counter()</code> values are not, and produce a warning.</li>
+        </ul>
+      </section>
+
+      <!-- ============================================================ languages -->
+      <section id="languages">
+        <h2>Languages &amp; complex scripts</h2>
+        <p>Latin, Greek and Cyrillic text, plus symbols such as € £ ₹ − “ ”, work with any embedded font that contains them. Scripts that need OpenType shaping, such as Devanagari (Nepali, Hindi), Bengali, Arabic and Thai, are handled in one of two ways:</p>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Option</th><th>Looks</th><th>Copy / search</th></tr></thead>
+          <tbody>
+            <tr><td><code>complexScriptFallback: 'none'</code> (default)</td><td class="part">Unshaped glyphs (conjuncts not formed); warning</td><td class="yes">Correct</td></tr>
+            <tr><td><code>complexScriptFallback: 'raster'</code></td><td class="yes">Shaped by the browser, drawn as a 288 dpi image per word</td><td class="yes">Correct (invisible text layer)</td></tr>
+            <tr><td><code>printElement()</code></td><td class="yes">Shaped natively by the print engine</td><td>Depends on the browser</td></tr>
+          </tbody>
+        </table></div>
+        <div class="code"><pre>await pdf(el, { complexScriptFallback: 'raster' }).download();  // recommended for Nepali / Hindi / Arabic documents</pre></div>
+        <p>Identical words, such as a repeated customer name, share one image, so the file stays small. Make sure the CSS font list includes a font for the script, for example <code>font-family: 'Noto Sans', 'Noto Sans Devanagari', sans-serif</code>.</p>
+      </section>
+
+      <!-- ============================================================ warnings -->
+      <section id="warnings">
+        <h2>Warnings &amp; strict mode</h2>
+        <p>Every export returns <code>warnings</code>, each one structured like this:</p>
+        <div class="code"><pre>{
+  code: 'asset-unavailable',
+  severity: 'warning',  // 'info' | 'warning' | 'error'
+  message: 'Image could not be loaded: https://…/logo.png',
+  element: 'div.brand > img',  // where it happened
+  remedy: 'Check the URL/CORS, or provide the bytes with options.assetResolver',
+  count: 1,  // identical warnings are folded
+}</pre></div>
+        <p><code>info</code> warnings describe deliberate choices, for example "SVG rasterized" or "image downsampled". <code>warning</code> means something visible may differ from the screen. If your use case cannot accept that, for example a legal document, turn on strict mode:</p>
+        <div class="code"><pre>try {
+  await pdf(el, { strict: true }).download();
+} catch (e) {
+  if (e.code === 'fidelity') console.table(e.warnings);  // nothing was exported
+}</pre></div>
+        <p>See all <a href="#warning-codes">warning codes</a>.</p>
+      </section>
+
+      <!-- ============================================================ cancel -->
+      <section id="cancel">
+        <h2>Cancellation &amp; progress</h2>
+        <div class="code"><pre>const controller = new AbortController();
+cancelButton.onclick = () =&gt; controller.abort();
+
+await pdf(el, {
+  signal: controller.signal,
+  onProgress: (stage, info) =&gt; console.log(stage, info),  // surface → measure → assets → paginate → render → done
+}).download();</pre></div>
+        <p>A cancelled export rejects with <code>ZedPdfError</code> code <code>'aborted'</code>. The temporary hidden frame is always removed, whether the export succeeds, fails or is cancelled.</p>
+      </section>
+
+      <!-- ============================================================ native print -->
+      <section id="native-print">
+        <h2>Native print</h2>
+        <p><code>printElement()</code> opens the browser's print dialog for just the element, not the whole page. The browser's own print engine lays it out, so <code>@media print</code>, <code>@page</code> and <code>break-*</code> apply natively. The user can print or choose <b>Save as PDF</b>.</p>
+        <div class="code"><pre>import { printElement } from 'zedpdf';
+await printElement(el, { format: 'A4', margin: '12mm', title: 'Invoice INV-2026-0042' });
+// resolves after the dialog closes</pre></div>
+        <p>Use <code>exportPdf</code> when you need the file in code, for a download button, preview or upload. Use <code>printElement</code> when the user wants a printer, or when a script needs native shaping without the raster fallback.</p>
+      </section>
+
+      <!-- ============================================================ API -->
+      <section id="api-pdf">
+        <h2>pdf() &amp; bindActions()</h2>
+        <h3 id="pdf-api"><code>pdf(target, options?) → PdfHandle</code></h3>
+        <p><code>target</code> is an <code>HTMLElement</code> or a CSS selector, resolved each time an action runs. <code>options</code> are the <a href="#api">exportPdf options</a>, plus <code>applyPageRule</code> for <code>print()</code>. The handle has <code>download</code>, <code>print</code>, <code>open</code>, <code>preview</code>, <code>share</code>, <code>file</code>, <code>blob</code> and <code>render</code>; see <a href="#actions">Actions</a>.</p>
+        <h3 id="result-api">The result object</h3>
+        <p><code>exportPdf()</code> and <code>render()</code> resolve to a <code>PdfFile</code>: <code>{ blob, pageCount, warnings, timings, filename }</code> plus <code>download(name?)</code>, <code>open()</code>, <code>preview(where)</code>, <code>share(data?)</code>, <code>file(name?)</code>, <code>url()</code> and <code>dispose()</code>.</p>
+        <h3 id="bind-api"><code>bindActions(root = document) → unbind</code></h3>
+        <p>Turns <code>data-zedpdf</code> elements inside <code>root</code> into PDF buttons and returns a function that removes the listener. The script-tag build calls it for you. Events: <code>zedpdf:done</code> and <code>zedpdf:error</code>, both bubbling, with <code>detail.action</code> and <code>detail.result</code> or <code>detail.error</code>.</p>
+      </section>
+
+      <section id="api">
+        <h2>exportPdf(element, options?)</h2>
+        <p>Returns <code>Promise&lt;PdfFile&gt;</code>: <code>{ blob, pageCount, warnings, timings }</code> plus the <a href="#result-api">result actions</a>.</p>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>format</code></td><td><code>'A4'</code></td><td><code>'A4' | 'Letter' | 'A3' | 'A5' | 'Legal'</code> or <code>{ width, height }</code></td></tr>
+            <tr><td><code>orientation</code></td><td><code>'portrait'</code></td><td><code>'portrait' | 'landscape'</code></td></tr>
+            <tr><td><code>margin</code></td><td><code>'10mm'</code></td><td>One length, or <code>{ top, right, bottom, left }</code></td></tr>
+            <tr><td><code>header</code> / <code>footer</code></td><td>none</td><td><code>{ html }</code> repeated on every page; <code>.pageNumber</code>, <code>.totalPages</code> are filled in</td></tr>
+            <tr><td><code>css</code></td><td>none</td><td>Extra CSS applied only to the export</td></tr>
+            <tr><td><code>media</code></td><td><code>'print'</code></td><td><code>'print'</code> applies <code>@media print</code> and disables <code>@media screen</code>; <code>'screen'</code> keeps the screen cascade</td></tr>
+            <tr><td><code>fonts</code></td><td>none</td><td><code>[{ family, weight?, style?, src }]</code>, where <code>src</code> is a URL, ArrayBuffer, Uint8Array or Blob (TTF/OTF/WOFF)</td></tr>
+            <tr><td><code>assetResolver</code></td><td>none</td><td><code>(url, 'image' | 'font') =&gt; bytes | null</code></td></tr>
+            <tr><td><code>assetTimeout</code></td><td><code>10000</code></td><td>Milliseconds to wait for each stylesheet, font and image</td></tr>
+            <tr><td><code>maxImageDpi</code></td><td><code>300</code></td><td>Downsample images larger than needed; <code>false</code> keeps originals</td></tr>
+            <tr><td><code>jpegQuality</code></td><td><code>0.85</code></td><td>Quality used when a downsampled photo is re-encoded</td></tr>
+            <tr><td><code>rasterScale</code></td><td><code>3</code></td><td>Resolution multiplier for SVG, canvas and complex-script words (3 = 288 dpi)</td></tr>
+            <tr><td><code>complexScriptFallback</code></td><td><code>'none'</code></td><td><code>'raster'</code> draws browser-shaped words with an invisible text layer</td></tr>
+            <tr><td><code>repeatTableHeader</code></td><td><code>true</code></td><td>Repeat <code>&lt;thead&gt;</code> rows on every page</td></tr>
+            <tr><td><code>keepHeadingsWithNext</code></td><td><code>false</code></td><td>Treat <code>h1</code>–<code>h6</code> as <code>break-after: avoid</code></td></tr>
+            <tr><td><code>oversizedImage</code></td><td><code>'scale'</code></td><td><code>'scale'</code> or <code>'slice'</code> images taller than a page</td></tr>
+            <tr><td><code>expandScrollContainers</code></td><td><code>true</code></td><td>Export the full content of scrollable areas</td></tr>
+            <tr><td><code>strict</code></td><td><code>false</code></td><td>Reject with <code>ZedPdfError('fidelity')</code> on any <code>warning</code>-severity issue</td></tr>
+            <tr><td><code>signal</code></td><td>none</td><td><code>AbortSignal</code> to cancel</td></tr>
+            <tr><td><code>onProgress</code></td><td>none</td><td><code>(stage, { page, pages }?) =&gt; void</code></td></tr>
+            <tr><td><code>title</code>, <code>author</code>, <code>subject</code></td><td>none</td><td>PDF document properties</td></tr>
+            <tr><td><code>filename</code></td><td>from title</td><td>File name for <code>download</code>, <code>share</code> and <code>file</code>; <code>.pdf</code> is added</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="api-print">
+        <h2>printElement() &amp; savePdf()</h2>
+        <h3 id="print-api"><code>printElement(element, options?) → Promise&lt;void&gt;</code></h3>
+        <p>Options: <code>format</code>, <code>orientation</code>, <code>margin</code>, <code>css</code>, <code>title</code> (the default "Save as PDF" file name), <code>applyPageRule</code> (default <code>true</code>; emits <code>@page { size; margin }</code> from the options), <code>assetTimeout</code>, <code>signal</code>.</p>
+        <h3 id="save-api"><code>savePdf(blob, filename = 'document.pdf')</code></h3>
+        <p>Triggers a browser download and revokes the temporary object URL afterwards.</p>
+        <h3 id="version-api"><code>VERSION</code></h3>
+        <p>The library version string.</p>
+      </section>
+
+      <section id="errors">
+        <h2>Errors</h2>
+        <p>Failures reject with <code>ZedPdfError</code>, which has a <code>code</code> and the <code>warnings</code> collected so far.</p>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Code</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td><code>invalid-element</code></td><td>The argument is not an <code>HTMLElement</code> attached to the document</td></tr>
+            <tr><td><code>aborted</code></td><td>The <code>signal</code> was aborted</td></tr>
+            <tr><td><code>fidelity</code></td><td><code>strict: true</code> and a <code>warning</code>-severity issue occurred</td></tr>
+            <tr><td><code>furniture-too-tall</code></td><td>Header and footer leave no room for content</td></tr>
+            <tr><td><code>pagination-failed</code></td><td>Internal safety stop (never loops forever); please report it with the page</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="warning-codes">
+        <h2>Warning codes</h2>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Code</th><th>Severity</th><th>Meaning &amp; fix</th></tr></thead>
+          <tbody>
+            <tr><td><code>font-substituted</code></td><td><span class="sev w">warning</span></td><td>No font file available, so a built-in PDF font is used. Add an <code>@font-face</code> (TTF/OTF/WOFF) or <code>options.fonts</code>.</td></tr>
+            <tr><td><code>font-woff2-unsupported</code></td><td><span class="sev w">warning</span></td><td>Only WOFF2 is available. Add a WOFF/TTF source.</td></tr>
+            <tr><td><code>missing-glyph</code></td><td><span class="sev w">warning</span></td><td>No font contains these characters. Add a font that covers them.</td></tr>
+            <tr><td><code>asset-unavailable</code></td><td><span class="sev w">warning</span></td><td>An image couldn't be read. Check the URL or CORS, or use <code>assetResolver</code>.</td></tr>
+            <tr><td><code>complex-script-unshaped</code></td><td><span class="sev w">warning</span></td><td>Devanagari, Arabic or similar is drawn unshaped. Use <code>complexScriptFallback: 'raster'</code>.</td></tr>
+            <tr><td><code>transform-unsupported</code>, <code>filter-unsupported</code>, <code>clip-path-unsupported</code></td><td><span class="sev w">warning</span></td><td>The effect is not reproduced. Remove it for export with <code>options.css</code>.</td></tr>
+            <tr><td><code>background-image-unsupported</code>, <code>background-gradient-unsupported</code></td><td><span class="sev w">warning</span></td><td>Only the background colour is drawn. Use an <code>&lt;img&gt;</code> for logos and watermarks.</td></tr>
+            <tr><td><code>fixed-element</code></td><td><span class="sev w">warning</span></td><td>A <code>position: fixed</code> element is drawn once. Use <code>header</code>/<code>footer</code> for repeated furniture.</td></tr>
+            <tr><td><code>horizontal-overflow</code></td><td><span class="sev w">warning</span></td><td>Content is wider than the printable area. Make it fluid or use landscape.</td></tr>
+            <tr><td><code>rowspan-split</code>, <code>table-header-not-repeated</code></td><td><span class="sev w">warning</span></td><td>A table rule had to be relaxed; see <a href="#table-rules">tables</a>.</td></tr>
+            <tr><td><code>oversized-image-scaled</code>, <code>monolithic-sliced</code></td><td><span class="sev w">warning</span></td><td>Content taller than a page was scaled or sliced.</td></tr>
+            <tr><td><code>shadow-dom</code>, <code>embedded-content-unsupported</code></td><td><span class="sev w">warning</span></td><td>Shadow DOM, <code>&lt;iframe&gt;</code> and <code>&lt;object&gt;</code> content isn't exported.</td></tr>
+            <tr><td><code>image-downsampled</code>, <code>image-rasterized</code>, <code>svg-rasterized</code></td><td><span class="sev i">info</span></td><td>An image was resized or rasterized to keep the file small and faithful.</td></tr>
+            <tr><td><code>complex-script-rasterized</code></td><td><span class="sev i">info</span></td><td>Words drawn by the browser, with a selectable text layer.</td></tr>
+            <tr><td><code>form-control-approximated</code></td><td><span class="sev i">info</span></td><td>A form control is drawn as box and value.</td></tr>
+            <tr><td><code>scroll-container-expanded</code></td><td><span class="sev i">info</span></td><td>A scrollable area was expanded to show all its content.</td></tr>
+            <tr><td><code>break-inside-relaxed</code>, <code>orphans-widows-relaxed</code>, <code>break-avoid-relaxed</code></td><td><span class="sev i">info</span></td><td>A keep-together rule could not be met and was relaxed (CSS Fragmentation §4.4).</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="support">
+        <h2>Supported HTML &amp; CSS</h2>
+        <div class="grid2">
+          <div class="card">
+            <h3>Supported</h3>
+            <ul class="ticks">
+              <li>Block, flex, grid and multi-column layouts; floats; absolute positioning</li>
+              <li>Tables: <code>thead</code>, <code>tfoot</code>, captions, nested tables, colspan, rowspan</li>
+              <li>Backgrounds with alpha, borders (solid, dashed, dotted, double), rounded corners, outer shadows, <code>overflow</code> clipping, <code>opacity</code></li>
+              <li>Text: web fonts, weights, italics, letter-spacing, <code>text-transform</code>, underline and strike, sub/sup, justification, <code>&lt;br&gt;</code>, <code>pre</code></li>
+              <li>Images: PNG, JPEG, SVG, WebP, GIF, <code>canvas</code>, <code>srcset</code>, <code>object-fit</code></li>
+              <li>Lists, <code>details</code>/<code>summary</code>, <code>::before</code>/<code>::after</code>, links, forms</li>
+              <li>Vue scoped CSS, CSS modules, Tailwind, CSS variables, ancestor themes</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Not yet</h3>
+            <ul class="crosses">
+              <li>OpenType shaping in vector text (raster fallback available)</li>
+              <li>WOFF2 fonts</li>
+              <li>CSS background images and gradients</li>
+              <li>Rotate, scale and skew transforms; filters; blend modes; <code>text-shadow</code></li>
+              <li>Tagged (accessible) PDF structure; in-page <code>#anchor</code> links</li>
+              <li>Shadow DOM content, <code>&lt;iframe&gt;</code> content</li>
+              <li>Virtualized lists and tables: only rows currently in the DOM can be exported</li>
+            </ul>
+          </div>
+        </div>
+        <h3 id="browsers">Browsers</h3>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Engine</th><th>Status</th><th>1,000-row invoice</th></tr></thead>
+          <tbody>
+            <tr><td>Chromium (Chrome, Edge) 159</td><td class="yes">Full test suite</td><td>0.86 s</td></tr>
+            <tr><td>Firefox 159</td><td class="yes">Compatibility suite</td><td>0.87 s</td></tr>
+            <tr><td>WebKit 27.2 (Safari engine)</td><td class="yes">Compatibility suite</td><td>2.4 s</td></tr>
+          </tbody>
+        </table></div>
+        <p class="muted">Measured with Playwright's builds on Windows. Branded Safari on macOS/iOS and mobile browsers have not been verified.</p>
+      </section>
+
+      <!-- ============================================================ troubleshooting -->
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3 id="ts-fonts">The PDF uses Helvetica instead of my font</h3>
+        <p>zedpdf couldn't read the font file. Check the <code>font-substituted</code> warning. Typical causes: the font is a system font, only a WOFF2 file is provided, the font is on another domain without CORS, or the page was opened from <code>file://</code>.</p>
+        <h3 id="ts-images">An image is missing</h3>
+        <p>Look for <code>asset-unavailable</code>. Images on another domain need CORS headers (<code>Access-Control-Allow-Origin</code>). Images behind a login can be supplied through <code>assetResolver</code>.</p>
+        <h3 id="ts-cut">Something is cut off on the right</h3>
+        <p>The layout is wider than the printable width (see <code>horizontal-overflow</code>). Use fluid widths (<code>max-width: 100%</code>), smaller margins or landscape. Wide tables can use <code>table-layout: fixed</code> plus <code>overflow-wrap: anywhere</code>.</p>
+        <h3 id="ts-breaks">A block breaks where I don't want it to</h3>
+        <p>Add <code>break-inside: avoid</code> to it, or <code>break-before: page</code> to start it on a new page. Pass those through <code>options.css</code> if you don't want them on screen.</p>
+        <h3 id="ts-virtual">Only some rows of my table appear</h3>
+        <p>Virtualized tables only keep visible rows in the DOM. Render all rows (for example in a hidden print view) before calling <code>exportPdf</code>.</p>
+        <h3 id="ts-slow">Exports of very large documents are slow</h3>
+        <p>On a laptop, 1,000 rows (49 pages) take about 1 s in Chromium and Firefox, and 2–3 s in WebKit. Show progress with <code>onProgress</code> and allow cancellation with <code>signal</code>.</p>
+        <h3 id="ts-screen">The PDF shows things I hide when printing (or vice versa)</h3>
+        <p>The default is <code>media: 'print'</code>. If your screen styles are what you want exported, pass <code>media: 'screen'</code>.</p>
+      </section>
+
+      <section id="how">
+        <h2>How it works</h2>
+        <ol>
+          <li><b>Clone.</b> The element is copied into an offscreen same-origin iframe at the printable width, with its stylesheets, parent context and generated content.</li>
+          <li><b>Measure.</b> Box and word positions are read with <code>getBoundingClientRect</code> and <code>Range.getClientRects</code>, one call per word. Nothing is laid out again.</li>
+          <li><b>Paginate.</b> A pure algorithm chooses breaks following CSS Fragmentation Level 3 and CSS Tables Level 3. Each page reuses the measured geometry, shifted, so columns cannot move.</li>
+          <li><b>Write.</b> A small PDF writer produces vector paths, Type0/CID fonts with ToUnicode, right-sized images, link annotations and a byte-accurate cross-reference table.</li>
+        </ol>
+        <p>The result is checked against Chromium's print-to-PDF and opened by two independent PDF engines (MuPDF and pdf.js) in the project's test suite.</p>
+      </section>
+    </article>
+
+    <nav class="toc" aria-label="On this page"><h4>On this page</h4><div id="toc"></div></nav>
+  </div>
+
+  <footer class="bottom">
+    <div class="wrap">
+      <div><b>zed<i style="color:var(--accent)">pdf</i></b><p>MIT licensed.</p></div>
+      <div><p><a href="./">Overview</a> · <a href="changelog.html">Changelog</a> · <a href="{{REPO}}">GitHub</a> · <a href="https://www.npmjs.com/package/zedpdf">npm</a></p></div>
+    </div>
+  </footer>
+  <script type="module" src="docs.js"></script>
+</body>
+</html>

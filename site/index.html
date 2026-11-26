@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zedpdf · HTML to PDF, in the browser</title>
+  <meta name="description" content="zedpdf writes a PDF of any element on your page, in the visitor's browser. Text stays text, tables break between rows, and files come out smaller than Chrome's print.">
+  <meta name="theme-color" content="#f4f1e9">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="fixtures/invoice.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="site-brand" href="./">zed<i>pdf</i></a>
+      <span class="badge-ver" id="ver">v0.1</span>
+      <nav aria-label="Main">
+        <a href="#playground">Try it</a>
+        <a href="#fidelity">Accuracy</a>
+        <a href="#size">File size</a>
+        <a href="#compare">Compared</a>
+        <a href="docs.html">Docs</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="{{REPO}}">GitHub</a>
+      </nav>
+      <button class="icon-btn" data-theme-toggle aria-label="Switch between light and dark" title="Light / dark">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <p class="kicker">Browser-side PDF export <span>·</span> open source</p>
+          <h1>The invoice on your screen, <em>as a proper&nbsp;PDF.</em></h1>
+          <p class="lead">zedpdf takes an element from your page, such as an invoice, a quote or a monthly report, and writes a PDF of it right there in the browser. Text stays text, tables break between rows, and the file usually comes out smaller than the one Chrome's print dialog makes.</p>
+          <div class="install" role="group" aria-label="Install">
+            <div class="tabs" role="tablist">
+              <button role="tab" aria-selected="true" data-install="npm install zedpdf">npm</button>
+              <button role="tab" aria-selected="false" data-install="pnpm add zedpdf">pnpm</button>
+              <button role="tab" aria-selected="false" data-install="yarn add zedpdf">yarn</button>
+              <button role="tab" aria-selected="false" data-install='<script src="zedpdf.global.js"></script>'>script tag</button>
+            </div>
+            <div class="row"><code id="install-cmd">npm install zedpdf</code><button class="copy" data-copy="#install-cmd">Copy</button></div>
+          </div>
+          <div class="cta">
+            <a class="btn primary" href="#playground">Try it on an invoice</a>
+            <a class="btn" href="docs.html">Read the docs</a>
+            <a class="link-arrow" href="samples/invoice-two-page.pdf" download>Download a sample</a>
+          </div>
+        </div>
+        <figure class="specimen">
+          <div class="sheet"><img src="samples/zedpdf-p1.png" alt="First page of an invoice exported with zedpdf"></div>
+          <figcaption><b>Fig. 1</b>Page one of three. Select any word in the sample PDF: it's real text.</figcaption>
+          <dl class="receipt">
+            <div><dt>Pages</dt><dd>3</dd></div>
+            <div><dt>File size</dt><dd>49 KB</dd></div>
+            <div><dt>Fonts</dt><dd>Noto Sans, subset</dd></div>
+            <div><dt>Time in the browser</dt><dd>≈ 150 ms</dd></div>
+            <div><dt>Pixels that differ from Chrome's print</dt><dd>0.17 %</dd></div>
+          </dl>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" id="playground">
+      <div class="wrap">
+        <p class="label"><b>01</b> Try it</p>
+        <h2>Pick an invoice. Make the <em>PDF</em>.</h2>
+        <p class="intro">On the left is plain HTML and CSS. The button runs the actual library in this tab, and what you see on the right is the file it hands back. Nothing goes to a server.</p>
+        <form class="controls" id="controls" autocomplete="off">
+          <label>Example
+            <select name="preset">
+              <option value="one-page">One-page invoice</option>
+              <option value="two-page" selected>Two-page invoice</option>
+              <option value="long">200-row invoice</option>
+              <option value="oversized">A very long description</option>
+              <option value="missing-image">A broken image</option>
+              <option value="bilingual">Nepali and English</option>
+            </select>
+          </label>
+          <label>Paper <select name="format"><option>A4</option><option>Letter</option></select></label>
+          <label>Orientation <select name="orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
+          <label>Margins <select name="margin"><option>10mm</option><option>15mm</option><option>20mm</option><option value="0">None</option></select></label>
+          <label class="check"><input type="checkbox" name="footer" checked> Page numbers</label>
+          <div class="actions">
+            <button type="button" id="generate" class="btn primary">Make the PDF</button>
+            <button type="button" id="download" class="btn">Download</button>
+            <button type="button" id="print" class="btn">Print instead</button>
+          </div>
+        </form>
+        <div class="panes">
+          <div class="pane">
+            <div class="pane-head"><span><span class="dots"></span>The page</span><span id="html-meta"></span></div>
+            <div class="pane-body html-view"><div class="paper"><div id="mount"></div></div></div>
+          </div>
+          <div class="pane">
+            <div class="pane-head"><span>The PDF</span><a id="open-tab" target="_blank" rel="noopener" hidden>Open in a new tab</a></div>
+            <div class="pane-body pdf-view">
+              <iframe id="pdf" title="Generated PDF" hidden></iframe>
+              <div class="empty" id="empty">
+                <svg viewBox="0 0 24 24" aria-hidden="true"></svg>
+                <p>Nothing here yet.</p>
+                <p class="muted">Press “Make the PDF”.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="result" aria-live="polite">
+          <div id="stats" class="stats-line"></div>
+          <ul id="warnings" class="warnings"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="fidelity">
+      <div class="wrap">
+        <p class="label"><b>02</b> Accuracy</p>
+        <h2>Checked against the browser's <em>own print</em>.</h2>
+        <p class="intro">We exported the same two-page invoice with zedpdf and with Chromium's “Save as PDF”, using the same paper and margins, then had a third program (MuPDF) draw both. Here is page one of each, and where they differ.</p>
+        <div class="figures">
+          <figure><div class="shot"><img src="samples/zedpdf-p1.png" alt="zedpdf, page 1" loading="lazy"></div><figcaption><b>Fig. 2</b>zedpdf</figcaption></figure>
+          <figure><div class="shot"><img src="samples/print-p1.png" alt="Chromium print, page 1" loading="lazy"></div><figcaption><b>Fig. 3</b>Chromium's print</figcaption></figure>
+          <figure><div class="shot"><img src="samples/diff-p1.png" alt="Map of differing pixels" loading="lazy"></div><figcaption><b>Fig. 4</b>Differences, in red</figcaption></figure>
+        </div>
+        <dl class="metrics">
+          <div class="metric"><dt>Page breaks</dt><dd>Same</dd><small>Three pages, 13 rows on the first</small></div>
+          <div class="metric"><dt>Sideways drift</dt><dd>0.00 pt</dd><small>Every item number and amount</small></div>
+          <div class="metric"><dt>Up/down drift</dt><dd>0.35 pt</dd><small>At most; about half a pixel</small></div>
+          <div class="metric"><dt>Pixels that differ</dt><dd>0.17 %</dd><small>Page one, at 96 dpi</small></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="sec" id="size">
+      <div class="wrap cols">
+        <div>
+          <p class="label"><b>03</b> File size</p>
+          <h2>Light enough to <em>email</em>.</h2>
+          <p class="intro">Fonts only carry the letters you used. Photos are stored at the size they'll be printed (300 dpi), not the size they were taken. A logo that appears on every page is stored once.</p>
+          <div class="ledger-wrap">
+            <table class="ledger">
+              <thead><tr><th>Document</th><th>Made with</th><th class="num">Size</th></tr></thead>
+              <tbody>
+                <tr class="us"><th rowspan="1">Two-page invoice<small>logo, photo, 28 rows</small></th><td>zedpdf</td><td class="num"><span class="spark" style="width:34px"></span>49 KB</td></tr>
+                <tr><th></th><td>Chrome's print</td><td class="num"><span class="spark" style="width:50px"></span>72 KB</td></tr>
+                <tr><th></th><td>html2pdf.js</td><td class="num"><span class="spark" style="width:120px"></span>1,048 KB</td></tr>
+                <tr class="us"><th>1,000-row invoice<small>49 pages</small></th><td>zedpdf</td><td class="num"><span class="spark" style="width:94px"></span>221 KB</td></tr>
+                <tr><th></th><td>Chrome's print</td><td class="num"><span class="spark" style="width:120px"></span>283 KB</td></tr>
+                <tr class="us"><th>Nepali and English<small>shaped words as images</small></th><td>zedpdf</td><td class="num"><span class="spark" style="width:120px"></span>82 KB</td></tr>
+                <tr><th></th><td>Chrome's print</td><td class="num"><span class="spark" style="width:113px"></span>77 KB</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="aside-note"><b>Where it loses.</b> Pages in Nepali, Hindi or Arabic come out a little bigger than Chrome's print, because those words are stored as small images to get the letter shapes right. We'd rather say so than round it off.</p>
+      </div>
+    </section>
+
+    <section class="sec" id="compare">
+      <div class="wrap">
+        <p class="label"><b>04</b> Compared</p>
+        <h2>Same invoice, <em>four</em> libraries.</h2>
+        <p class="intro">We ran each library's current release on the same 28-row invoice, with the same paper and margins, and then asked the same questions of each PDF.</p>
+        <div class="ledger-wrap">
+          <table class="ledger compare-ledger">
+            <thead><tr><th>Library</th><th>Text you can select</th><th>All 28 rows, once, in order</th><th>Header on each page</th><th>Rows kept whole</th><th>Layout</th><th class="num">Size</th></tr></thead>
+            <tbody>
+              <tr class="us"><th>zedpdf 0.1.0</th><td class="yes mark-yes">Yes</td><td class="yes">28 of 28</td><td class="yes mark-yes">Yes</td><td class="yes mark-yes">Yes</td><td class="yes">Same as print</td><td class="num">49 KB</td></tr>
+              <tr><th>Chromium print<small>for reference</small></th><td class="yes mark-yes">Yes</td><td class="yes">28 of 28</td><td class="yes mark-yes">Yes</td><td class="yes mark-yes">Yes</td><td class="muted">—</td><td class="num">72 KB</td></tr>
+              <tr><th>Paged.js 0.4.3</th><td class="yes mark-yes">Yes</td><td class="yes">28 of 28</td><td class="no mark-no">No</td><td class="yes mark-yes">Yes</td><td class="part">One page short</td><td class="num">71 KB</td></tr>
+              <tr><th>pdfmake 0.3.15<small>with html-to-pdfmake</small></th><td class="yes mark-yes">Yes</td><td class="yes">28 of 28</td><td class="part">With a workaround</td><td class="no mark-no">Two split</td><td class="no">Styles lost, columns cut off</td><td class="num">69 KB</td></tr>
+              <tr><th>html2pdf.js 0.14.0</th><td class="no mark-no">No, it's a picture</td><td class="no">0 of 28</td><td class="muted">n/a</td><td class="yes mark-yes">Yes</td><td class="part">Screen-only parts showed</td><td class="num">1,048 KB</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="thumbs">
+          <figure><div class="shot"><img src="samples/compare-zedpdf.png" alt="zedpdf result" loading="lazy"></div><figcaption><b>A</b>zedpdf</figcaption></figure>
+          <figure><div class="shot"><img src="samples/compare-pagedjs.png" alt="Paged.js result" loading="lazy"></div><figcaption><b>B</b>Paged.js</figcaption></figure>
+          <figure><div class="shot"><img src="samples/compare-pdfmake.png" alt="pdfmake result" loading="lazy"></div><figcaption><b>C</b>pdfmake</figcaption></figure>
+          <figure><div class="shot"><img src="samples/compare-html2pdf.png" alt="html2pdf.js result" loading="lazy"></div><figcaption><b>D</b>html2pdf.js</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="start">
+      <div class="wrap">
+        <p class="label"><b>05</b> Using it</p>
+        <h2>One element. <em>Every</em> way out.</h2>
+        <p class="intro">Point it at an element, then decide what should happen: save it, print it, open it, show it in the page, share it or upload it. Plain HTML pages can do all of that with attributes alone, no script of your own.</p>
+        <div class="code" data-tabs>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-pane="js">JavaScript</button>
+            <button role="tab" aria-selected="false" data-pane="html">HTML only</button>
+            <button role="tab" aria-selected="false" data-pane="vue">Vue</button>
+            <button role="tab" aria-selected="false" data-pane="react">React</button>
+            <button role="tab" aria-selected="false" data-pane="upload">Upload &amp; share</button>
+          </div>
+<pre data-pane="js"><span class="k">import</span> { pdf } <span class="k">from</span> <span class="s">'zedpdf'</span>;
+
+<span class="k">const</span> invoice = <span class="f">pdf</span>(<span class="s">'#invoice'</span>, { format: <span class="s">'A4'</span>, filename: <span class="s">'INV-2026-0042'</span> });
+
+<span class="k">await</span> invoice.<span class="f">download</span>();             <span class="c">// save the file</span>
+<span class="k">await</span> invoice.<span class="f">open</span>();                 <span class="c">// show it in a new tab</span>
+<span class="k">await</span> invoice.<span class="f">preview</span>(<span class="s">'#viewer'</span>);     <span class="c">// show it in your page</span>
+<span class="k">await</span> invoice.<span class="f">print</span>();                <span class="c">// the browser's print dialog</span>
+<span class="k">await</span> invoice.<span class="f">share</span>();                <span class="c">// phone share sheet, or a download</span></pre>
+<pre data-pane="html" hidden><span class="c">&lt;!-- No JavaScript of your own. The buttons are wired up by the script. --&gt;</span>
+&lt;<span class="t">script</span> src=<span class="s">"zedpdf.global.js"</span>&gt;&lt;/<span class="t">script</span>&gt;
+
+&lt;<span class="t">button</span> data-zedpdf=<span class="s">"download"</span> data-zedpdf-target=<span class="s">"#invoice"</span> data-zedpdf-filename=<span class="s">"INV-42"</span>&gt;Download&lt;/<span class="t">button</span>&gt;
+&lt;<span class="t">button</span> data-zedpdf=<span class="s">"print"</span>    data-zedpdf-target=<span class="s">"#invoice"</span>&gt;Print&lt;/<span class="t">button</span>&gt;
+&lt;<span class="t">button</span> data-zedpdf=<span class="s">"open"</span>     data-zedpdf-target=<span class="s">"#invoice"</span>&gt;Open&lt;/<span class="t">button</span>&gt;
+&lt;<span class="t">button</span> data-zedpdf=<span class="s">"preview"</span>  data-zedpdf-target=<span class="s">"#invoice"</span> data-zedpdf-preview=<span class="s">"#viewer"</span>&gt;Preview&lt;/<span class="t">button</span>&gt;
+
+&lt;<span class="t">article</span> id=<span class="s">"invoice"</span>&gt;…&lt;/<span class="t">article</span>&gt;
+&lt;<span class="t">div</span> id=<span class="s">"viewer"</span>&gt;&lt;/<span class="t">div</span>&gt;</pre>
+<pre data-pane="vue" hidden>&lt;<span class="t">script</span> setup&gt;
+<span class="k">import</span> { ref } <span class="k">from</span> <span class="s">'vue'</span>;
+<span class="k">import</span> { pdf } <span class="k">from</span> <span class="s">'zedpdf'</span>;
+
+<span class="k">const</span> invoice = <span class="f">ref</span>(<span class="k">null</span>);
+<span class="k">const</span> doc = () =&gt; <span class="f">pdf</span>(invoice.value, { format: <span class="s">'A4'</span>, filename: <span class="s">'invoice'</span> });
+&lt;/<span class="t">script</span>&gt;
+
+&lt;<span class="t">template</span>&gt;
+  &lt;<span class="t">button</span> @click=<span class="s">"doc().download()"</span>&gt;Download&lt;/<span class="t">button</span>&gt;
+  &lt;<span class="t">button</span> @click=<span class="s">"doc().print()"</span>&gt;Print&lt;/<span class="t">button</span>&gt;
+  &lt;<span class="t">div</span> ref=<span class="s">"invoice"</span>&gt;&lt;<span class="t">InvoiceDoc</span> /&gt;&lt;/<span class="t">div</span>&gt;
+&lt;/<span class="t">template</span>&gt;</pre>
+<pre data-pane="react" hidden><span class="k">import</span> { useRef } <span class="k">from</span> <span class="s">'react'</span>;
+<span class="k">import</span> { pdf } <span class="k">from</span> <span class="s">'zedpdf'</span>;
+
+<span class="k">export function</span> <span class="f">InvoicePage</span>() {
+  <span class="k">const</span> ref = <span class="f">useRef</span>(<span class="k">null</span>);
+  <span class="k">const</span> doc = () =&gt; <span class="f">pdf</span>(ref.current, { format: <span class="s">'Letter'</span>, filename: <span class="s">'invoice'</span> });
+  <span class="k">return</span> (&lt;&gt;
+    &lt;<span class="t">button</span> onClick={() =&gt; doc().<span class="f">download</span>()}&gt;Download&lt;/<span class="t">button</span>&gt;
+    &lt;<span class="t">button</span> onClick={() =&gt; doc().<span class="f">open</span>()}&gt;Open&lt;/<span class="t">button</span>&gt;
+    &lt;<span class="t">article</span> ref={ref}&gt;…&lt;/<span class="t">article</span>&gt;
+  &lt;/&gt;);
+}</pre>
+<pre data-pane="upload" hidden><span class="k">import</span> { pdf } <span class="k">from</span> <span class="s">'zedpdf'</span>;
+
+<span class="c">// Send it to your server as a normal file upload</span>
+<span class="k">const</span> body = <span class="k">new</span> FormData();
+body.<span class="f">append</span>(<span class="s">'invoice'</span>, <span class="k">await</span> <span class="f">pdf</span>(<span class="s">'#invoice'</span>).<span class="f">file</span>(<span class="s">'INV-42.pdf'</span>));
+<span class="k">await</span> <span class="f">fetch</span>(<span class="s">'/api/invoices/42/pdf'</span>, { method: <span class="s">'POST'</span>, body });
+
+<span class="c">// Or keep the result and do several things with it</span>
+<span class="k">const</span> result = <span class="k">await</span> <span class="f">pdf</span>(<span class="s">'#invoice'</span>).<span class="f">render</span>();
+result.<span class="f">preview</span>(<span class="s">'#viewer'</span>);
+<span class="k">if</span> (result.warnings.length) console.<span class="f">table</span>(result.warnings);
+result.<span class="f">download</span>();</pre>
+        </div>
+        <dl class="defs">
+          <div><dt><code>.download()</code></dt><dd>Saves the file, named after your title or <code>filename</code>.</dd></div>
+          <div><dt><code>.print()</code></dt><dd>The browser's own print dialog, with just this element.</dd></div>
+          <div><dt><code>.open()</code></dt><dd>Opens it in a new tab. Safe from popup blockers.</dd></div>
+          <div><dt><code>.preview(el)</code></dt><dd>Shows it inside your page, in an iframe it manages.</dd></div>
+          <div><dt><code>.share()</code></dt><dd>The phone's share sheet; a download where there isn't one.</dd></div>
+          <div><dt><code>.file()</code>, <code>.blob()</code></dt><dd>For uploads, emails and anything else you need to do with it.</dd></div>
+        </dl>
+        <p style="margin-top:22px"><a class="link-arrow" href="docs.html#actions">All actions and options, in the docs</a></p>
+      </div>
+    </section>
+
+    <section class="sec" id="how">
+      <div class="wrap">
+        <p class="label"><b>06</b> What it covers</p>
+        <h2>Built for the pages businesses <em>actually</em> print.</h2>
+        <div class="prose-block">
+          <p>There's no screenshot involved. The browser lays your element out once, at the width of the paper. zedpdf reads where every word and box ended up, decides where pages should break, and writes those positions straight into the PDF. That's why columns don't wander from page to page and why the text can be copied.</p>
+        </div>
+        <div class="two" style="margin-top:36px">
+          <div>
+            <h3>Handled</h3>
+            <ul class="plain-list yes-list">
+              <li>Tables with repeating headers, nested tables, merged cells</li>
+              <li>Rows longer than a page, split cleanly between lines</li>
+              <li>Your web fonts, bold and italic, currency signs</li>
+              <li>Logos with transparency, photos, SVG icons, canvas charts</li>
+              <li>Flex and grid layouts, two-column text, lists</li>
+              <li>Links you can click, form values, checkboxes</li>
+              <li>Chrome, Edge, Firefox and Safari's engine</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Not yet</h3>
+            <ul class="plain-list no-list">
+              <li>Built-in shaping for Hindi, Nepali or Arabic (an image-based fallback works today)</li>
+              <li>WOFF2 font files (TTF, OTF and WOFF work)</li>
+              <li>CSS background images and gradients</li>
+              <li>Rotated or scaled elements, blur and other filters</li>
+              <li>Accessibility tags inside the PDF</li>
+              <li>Tables that only render the rows on screen</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <div class="wrap">
+      <div>
+        <b>zed<i style="color:var(--accent)">pdf</i></b> <span id="version"></span>
+        <p>MIT licensed. Free to use in commercial projects.</p>
+        <p><a href="docs.html">Docs</a> · <a href="changelog.html">Changelog</a> · <a href="{{REPO}}">GitHub</a> · <a href="https://www.npmjs.com/package/zedpdf">npm</a></p>
+      </div>
+      <div>
+        <p><b style="font-size:14px">Colophon</b></p>
+        <p>Headings in Palatino, body in your system's sans-serif. The sample invoice is set in Noto Sans; its company and customers are made up.</p>
+      </div>
+    </div>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

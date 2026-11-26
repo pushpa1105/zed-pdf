@@ -1,0 +1,183 @@
+[
+  {
+    "name": "invoice-one-page",
+    "pages": 1,
+    "bytes": 44954,
+    "ms": 320,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-two-page",
+    "pages": 3,
+    "bytes": 49455,
+    "ms": 445,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-two-page-letter-footer",
+    "pages": 3,
+    "bytes": 49818,
+    "ms": 425,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-200-rows",
+    "pages": 11,
+    "bytes": 82003,
+    "ms": 823,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-1000-rows",
+    "pages": 49,
+    "bytes": 221302,
+    "ms": 2302,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-oversized-row",
+    "pages": 4,
+    "bytes": 50557,
+    "ms": 334,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-missing-image",
+    "pages": 1,
+    "bytes": 31252,
+    "ms": 306,
+    "warnings": [
+      "warning:asset-unavailable",
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-bilingual-unshaped",
+    "pages": 2,
+    "bytes": 54119,
+    "ms": 402,
+    "warnings": [
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "warning:complex-script-unshaped",
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-bilingual-raster",
+    "pages": 2,
+    "bytes": 81887,
+    "ms": 412,
+    "warnings": [
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:complex-script-rasterized",
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "invoice-landscape",
+    "pages": 3,
+    "bytes": 50283,
+    "ms": 385,
+    "warnings": [
+      "info:image-rasterized",
+      "info:image-downsampled"
+    ]
+  },
+  {
+    "name": "boundary-exact",
+    "pages": 2,
+    "bytes": 7967,
+    "warnings": []
+  },
+  {
+    "name": "boundary-over",
+    "pages": 2,
+    "bytes": 7972,
+    "warnings": []
+  },
+  {
+    "name": "boundary-fullpage",
+    "pages": 3,
+    "bytes": 7461,
+    "warnings": []
+  },
+  {
+    "name": "boundary-multipage",
+    "pages": 4,
+    "bytes": 11049,
+    "warnings": []
+  },
+  {
+    "name": "boundary-totals",
+    "pages": 2,
+    "bytes": 4836,
+    "warnings": []
+  },
+  {
+    "name": "boundary-totals-huge",
+    "pages": 2,
+    "bytes": 7811,
+    "warnings": [
+      "info:break-inside-relaxed"
+    ]
+  },
+  {
+    "name": "boundary-colspan",
+    "pages": 2,
+    "bytes": 9890,
+    "warnings": []
+  },
+  {
+    "name": "boundary-rowspan",
+    "pages": 2,
+    "bytes": 9591,
+    "warnings": []
+  },
+  {
+    "name": "boundary-header-tall",
+    "pages": 3,
+    "bytes": 8553,
+    "warnings": [
+      "warning:table-header-not-repeated"
+    ]
+  },
+  {
+    "name": "boundary-big-image",
+    "pages": 3,
+    "bytes": 17044,
+    "warnings": [
+      "warning:oversized-image-scaled"
+    ]
+  }
+]

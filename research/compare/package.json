@@ -1,0 +1,13 @@
+{
+  "name": "zedpdf-compare-research",
+  "private": true,
+  "type": "module",
+  "description": "Side-by-side comparison of html2pdf.js, pdfmake (+html-to-pdfmake), Paged.js, zedpdf and native Chromium print. Not part of the pnpm workspace.",
+  "scripts": { "compare": "node run.mjs" },
+  "dependencies": {
+    "html2pdf.js": "0.14.0",
+    "pdfmake": "0.3.15",
+    "html-to-pdfmake": "2.6.0",
+    "pagedjs": "0.4.3"
+  }
+}

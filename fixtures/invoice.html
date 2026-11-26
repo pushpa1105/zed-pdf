@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zedpdf invoice fixture</title>
+  <link rel="stylesheet" href="./invoice.css">
+  <style>
+    body { margin: 0; background: #fff; }
+    @media screen { body { background: #eef1f5; padding: 24px; } #mount { max-width: 900px; margin: 0 auto; background: #fff; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,.08); } }
+    @media print { #mount { padding: 0; } }
+  </style>
+</head>
+<body>
+  <div id="mount"></div>
+  <script type="module">
+    import { renderInvoice } from './invoice.js';
+    const q = new URLSearchParams(location.search);
+    const info = renderInvoice(document.getElementById('mount'), {
+      preset: q.get('preset') ?? 'two-page',
+      rows: q.has('rows') ? +q.get('rows') : undefined,
+    });
+    window.__fixture = { grand: info.grand, ids: info.items.map((i) => i.id) };
+    document.documentElement.dataset.ready = '1';
+  </script>
+</body>
+</html>

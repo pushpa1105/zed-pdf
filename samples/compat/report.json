@@ -1,0 +1,203 @@
+[
+  {
+    "engine": "chromium",
+    "version": "159.0.8154.6",
+    "preset": "two-page",
+    "ok": true,
+    "pages": 3,
+    "ms": 165,
+    "bytes": 83390,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "chromium",
+    "version": "159.0.8154.6",
+    "preset": "long",
+    "ok": true,
+    "pages": 11,
+    "ms": 314,
+    "bytes": 123107,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "chromium",
+    "version": "159.0.8154.6",
+    "preset": "oversized",
+    "ok": true,
+    "pages": 4,
+    "ms": 139,
+    "bytes": 84456,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "chromium",
+    "version": "159.0.8154.6",
+    "preset": "missing-image",
+    "ok": true,
+    "pages": 1,
+    "ms": 108,
+    "bytes": 66860,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": [
+      "asset-unavailable"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "version": "159.0.8154.6",
+    "preset": "bilingual",
+    "ok": true,
+    "pages": 2,
+    "ms": 183,
+    "bytes": 178083,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "firefox",
+    "version": "159.0",
+    "preset": "two-page",
+    "ok": true,
+    "pages": 3,
+    "ms": 220,
+    "bytes": 82224,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "firefox",
+    "version": "159.0",
+    "preset": "long",
+    "ok": true,
+    "pages": 11,
+    "ms": 325,
+    "bytes": 121403,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "firefox",
+    "version": "159.0",
+    "preset": "oversized",
+    "ok": true,
+    "pages": 4,
+    "ms": 134,
+    "bytes": 83250,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "firefox",
+    "version": "159.0",
+    "preset": "missing-image",
+    "ok": true,
+    "pages": 1,
+    "ms": 157,
+    "bytes": 66268,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": [
+      "asset-unavailable"
+    ]
+  },
+  {
+    "engine": "firefox",
+    "version": "159.0",
+    "preset": "bilingual",
+    "ok": true,
+    "pages": 2,
+    "ms": 191,
+    "bytes": 158238,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "preset": "two-page",
+    "ok": true,
+    "pages": 3,
+    "ms": 401,
+    "bytes": 83085,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "preset": "long",
+    "ok": true,
+    "pages": 11,
+    "ms": 765,
+    "bytes": 123977,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "preset": "oversized",
+    "ok": true,
+    "pages": 4,
+    "ms": 426,
+    "bytes": 84703,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "preset": "missing-image",
+    "ok": true,
+    "pages": 1,
+    "ms": 351,
+    "bytes": 66822,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": [
+      "asset-unavailable"
+    ]
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "preset": "bilingual",
+    "ok": true,
+    "pages": 2,
+    "ms": 748,
+    "bytes": 158900,
+    "valid": true,
+    "idsOnceInOrder": true,
+    "grandOnce": true,
+    "warnings": []
+  }
+]

@@ -1,0 +1,168 @@
+{
+  "hardware": {
+    "cpu": "AMD Ryzen 7 5800H with Radeon Graphics         ",
+    "cores": 16,
+    "memGB": 15.4,
+    "os": "Windows_NT 10.0.26300",
+    "node": "v24.22.1"
+  },
+  "date": "2026-11-25T18:10:40.993Z",
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "159.0.8154.6",
+      "rows": 200,
+      "runs": 5,
+      "medianMs": 220,
+      "minMs": 216,
+      "maxMs": 268,
+      "pages": 11,
+      "bytes": 123107,
+      "valid": true,
+      "stageMedians": {
+        "surface": 77.2,
+        "measure": 73,
+        "assets": 37.2,
+        "paginate": 1,
+        "render": 35.3
+      },
+      "heapDeltaMB": [
+        10.1,
+        6.2,
+        8.1,
+        7.5,
+        14.3
+      ]
+    },
+    {
+      "engine": "chromium",
+      "version": "159.0.8154.6",
+      "rows": 1000,
+      "runs": 5,
+      "medianMs": 863,
+      "minMs": 774,
+      "maxMs": 880,
+      "pages": 49,
+      "bytes": 308607,
+      "valid": true,
+      "stageMedians": {
+        "surface": 299.6,
+        "measure": 331.9,
+        "assets": 54.1,
+        "paginate": 3.1,
+        "render": 139.2
+      },
+      "heapDeltaMB": [
+        28.4,
+        -7.1,
+        39.9,
+        -15.9,
+        -3.9
+      ]
+    },
+    {
+      "engine": "firefox",
+      "version": "159.0",
+      "rows": 200,
+      "runs": 5,
+      "medianMs": 286,
+      "minMs": 235,
+      "maxMs": 560,
+      "pages": 11,
+      "bytes": 121403,
+      "valid": true,
+      "stageMedians": {
+        "surface": 96,
+        "measure": 68,
+        "assets": 89,
+        "paginate": 1,
+        "render": 40
+      },
+      "heapDeltaMB": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "engine": "firefox",
+      "version": "159.0",
+      "rows": 1000,
+      "runs": 5,
+      "medianMs": 871,
+      "minMs": 835,
+      "maxMs": 989,
+      "pages": 49,
+      "bytes": 305405,
+      "valid": true,
+      "stageMedians": {
+        "surface": 384,
+        "measure": 269,
+        "assets": 65,
+        "paginate": 4,
+        "render": 132
+      },
+      "heapDeltaMB": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "engine": "webkit",
+      "version": "27.2",
+      "rows": 200,
+      "runs": 5,
+      "medianMs": 740,
+      "minMs": 695,
+      "maxMs": 756,
+      "pages": 11,
+      "bytes": 123977,
+      "valid": true,
+      "stageMedians": {
+        "surface": 209,
+        "measure": 125,
+        "assets": 136,
+        "paginate": 1,
+        "render": 264
+      },
+      "heapDeltaMB": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "engine": "webkit",
+      "version": "27.2",
+      "rows": 1000,
+      "runs": 5,
+      "medianMs": 2363,
+      "minMs": 2185,
+      "maxMs": 2430,
+      "pages": 49,
+      "bytes": 314862,
+      "valid": true,
+      "stageMedians": {
+        "surface": 784,
+        "measure": 552,
+        "assets": 146,
+        "paginate": 4,
+        "render": 871
+      },
+      "heapDeltaMB": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    }
+  ]
+}

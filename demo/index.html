@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>zedpdf demo: invoice to PDF in the browser</title>
+  <link rel="stylesheet" href="../fixtures/invoice.css">
+  <link rel="stylesheet" href="./demo.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="logo">zed<b>pdf</b> <span>demo</span></div>
+    <p class="tag">HTML element → real PDF, in the browser. Selectable text, vector boxes, embedded fonts, content-aware page breaks.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <form id="controls" autocomplete="off">
+        <fieldset>
+          <legend>Fixture</legend>
+          <label>Preset
+            <select name="preset">
+              <option value="one-page">One-page invoice</option>
+              <option value="two-page" selected>Two-page invoice</option>
+              <option value="long">200-row invoice</option>
+              <option value="oversized">Oversized item description</option>
+              <option value="missing-image">Missing image</option>
+              <option value="bilingual">Bilingual (नेपाली / English)</option>
+            </select>
+          </label>
+          <label>Rows <input name="rows" type="number" min="1" max="5000" value="28"></label>
+        </fieldset>
+        <fieldset>
+          <legend>Page</legend>
+          <label>Paper
+            <select name="format"><option>A4</option><option>Letter</option></select>
+          </label>
+          <label>Orientation
+            <select name="orientation"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
+          </label>
+          <label>Margins <select name="margin"><option>10mm</option><option>15mm</option><option>20mm</option><option>0.5in</option><option>0</option></select></label>
+          <label class="check"><input type="checkbox" name="footer" checked> Page numbers footer</label>
+        </fieldset>
+        <fieldset>
+          <legend>Export</legend>
+          <label>Complex scripts
+            <select name="complex"><option value="raster">Raster + text layer</option><option value="none">Unshaped vector (warn)</option></select>
+          </label>
+          <label class="check"><input type="checkbox" name="strict"> Strict (fail on fidelity loss)</label>
+        </fieldset>
+        <div class="buttons">
+          <button type="button" id="preview" class="primary">Preview PDF</button>
+          <button type="button" id="download">Download PDF</button>
+          <button type="button" id="print">Native Print</button>
+          <button type="button" id="cancel" disabled>Cancel</button>
+        </div>
+      </form>
+      <section class="status" aria-live="polite">
+        <div id="stats">Ready.</div>
+        <ul id="warnings"></ul>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="html" aria-selected="true">HTML (on screen)</button>
+        <button role="tab" data-tab="pdf" aria-selected="false">Generated PDF</button>
+      </div>
+      <div class="pane" data-pane="html">
+        <div class="paper"><div id="mount"></div></div>
+      </div>
+      <div class="pane" data-pane="pdf" hidden>
+        <iframe id="pdf" title="Generated PDF preview"></iframe>
+        <p class="hint">This is the actual PDF Blob returned by <code>exportPdf()</code>. Use <b>Native Print</b> → “Save as PDF” with the same paper and margins (headers/footers off, background graphics on) to compare against the browser's print engine.</p>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

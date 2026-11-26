@@ -1,0 +1,61 @@
+{
+  "name": "zedpdf",
+  "version": "0.1.0",
+  "description": "Browser-only HTML element to PDF export with real, selectable text, vector boxes, embedded fonts and content-aware pagination. Zero runtime dependencies.",
+  "keywords": [
+    "pdf",
+    "html-to-pdf",
+    "invoice",
+    "export",
+    "print",
+    "pagination",
+    "browser",
+    "zero-dependency",
+    "typescript"
+  ],
+  "homepage": "https://pushpa1105.github.io/zed-pdfer/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pushpa1105/zed-pdfer.git",
+    "directory": "packages/zedpdf"
+  },
+  "bugs": {
+    "url": "https://github.com/pushpa1105/zed-pdfer/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/zedpdf.js",
+  "module": "./dist/zedpdf.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/zedpdf.js"
+    },
+    "./global": "./dist/zedpdf.global.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

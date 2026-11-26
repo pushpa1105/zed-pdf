@@ -1,0 +1,99 @@
+{
+  "browser": "chromium 159.0.8154.6",
+  "zedpdf": {
+    "pages": 3,
+    "bytes": 49587,
+    "ms": 317,
+    "timings": {
+      "surface": 181.3,
+      "measure": 23.5,
+      "assets": 90.1,
+      "paginate": 1.6,
+      "render": 19.3
+    },
+    "inspect": {
+      "mupdfPages": 3,
+      "mupdfRepaired": false,
+      "pdfjsPages": 3,
+      "sizes": [
+        [
+          595.28,
+          841.89
+        ],
+        [
+          595.28,
+          841.89
+        ],
+        [
+          595.28,
+          841.89
+        ]
+      ],
+      "xref": {
+        "ok": true,
+        "objects": 34,
+        "entryBytesOk": true,
+        "errors": []
+      },
+      "bytes": 49587
+    },
+    "warnings": [
+      {
+        "code": "image-rasterized",
+        "severity": "info",
+        "message": "SVG image rasterized at 288 dpi",
+        "element": "div.meta > table > tbody > tr:nth-child(4) > td:nth-child(2) > img.stamp",
+        "count": 1
+      },
+      {
+        "code": "image-downsampled",
+        "severity": "info",
+        "message": "Image downsampled from 400×300 to 150×113 px for 300 dpi (12 KB → 4 KB)",
+        "element": "div#invoice > table.items > tbody > tr:nth-child(2) > td.desc > img.thumb",
+        "remedy": "Set maxImageDpi: false to keep the original resolution",
+        "count": 1
+      }
+    ]
+  },
+  "print": {
+    "bytes": 71747,
+    "inspect": {
+      "mupdfPages": 3,
+      "mupdfRepaired": false,
+      "pdfjsPages": 3,
+      "sizes": [
+        [
+          595.92,
+          841.92
+        ],
+        [
+          595.92,
+          841.92
+        ],
+        [
+          595.92,
+          841.92
+        ]
+      ],
+      "xref": {
+        "ok": true,
+        "objects": 38,
+        "entryBytesOk": true,
+        "errors": []
+      },
+      "bytes": 71747
+    }
+  },
+  "compare": {
+    "idsInBoth": 28,
+    "idsOnSamePage": 28,
+    "maxDxPt": 0,
+    "maxDyPt": 0.35,
+    "pixelDiffPercentPerPage": [
+      0.17,
+      0.13,
+      0
+    ]
+  },
+  "zedpdfTextPage1": "Himal Trading Co. · Lazimpat, Kathmandu 44600 · VAT 600123456\nINVOICE\nInvoice no. INV-2026-0042\nIssue date 25 Nov 2026\nDue date 25 Dec 2026\nStatus\nBILL TO\nAcme Retail Pvt. Ltd.\n221B Market Road\nLalitpur 44700, Nepal\nPAN 301234567\nSHIP TO\nAcme Retail Warehouse\nPlot 17, Industrial Estate\nBalaju, Kathmandu 44611\nContact: +977 1 4350000\nID Description Qty Unit price Disc. Amount (NPR)\nITEM-0001 Steel shelving unit\nGalvanised, 5 tiers, 180 × 90 × 40 cm\n4 47.30 — 189.20\nITEM-0002 Office chair\n(refurbished)\nErgonomic mesh back, adjustable lumbar support\n7 111.83 — 782.81\nITEM-0003 A4 copy paper\n80 gs"
+}

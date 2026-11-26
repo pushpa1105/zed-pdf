@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>zedpdf boundary fixtures</title>
+  <!--
+    Deterministic pagination boundaries. Export with format {width:'800px', height:'1000px'}, margin 0:
+    the content area is exactly 800 x 1000 CSS px. The table header row is 40px.
+  -->
+  <style>
+    @font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_400Regular.ttf'); font-weight: 400; }
+    @font-face { font-family: 'Noto Sans'; src: url('./assets/fonts/NotoSans_700Bold.ttf'); font-weight: 700; }
+    body { margin: 0; }
+    #doc { width: 800px; font: 14px/20px 'Noto Sans', sans-serif; color: #111; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    th, td { padding: 0 6px; vertical-align: top; text-align: left; }
+    th { height: 40px; background: #234; color: #fff; }
+    td.amt { text-align: right; width: 120px; }
+    td.id { width: 90px; }
+    tbody tr:nth-child(even) td { background: #eef; }
+    .block { box-sizing: border-box; }
+    .totals { break-inside: avoid; background: #ffe; border-top: 2px solid #333; }
+    .totals p { margin: 0; }
+    tr { break-inside: avoid; }
+  </style>
+</head>
+<body>
+  <div id="doc"></div>
+  <script type="module">
+    const q = new URLSearchParams(location.search);
+    const kind = q.get('case') ?? 'exact';
+    const doc = document.getElementById('doc');
+    const head = '<thead><tr><th class="id">ID</th><th>Description</th><th class="amt">Amount</th></tr></thead>';
+    const row = (id, h, desc = 'Item ' + id, amt = 'AMT-' + id, extra = '') => `<tr data-id="${id}"${extra}><td class="id" style="height:${h}px">${id}</td><td>${desc}</td><td class="amt">${amt}</td></tr>`;
+    const rows = (n, h, start = 1) => Array.from({ length: n }, (_, i) => row('R' + String(start + i).padStart(2, '0'), h)).join('');
+    let html = '';
+    if (kind === 'exact') {
+      // 40 + 12 * 80 = 1000: row 12 fits exactly and must stay on page 1.
+      html = `<table>${head}<tbody>${rows(14, 80)}</tbody></table>`;
+    } else if (kind === 'over') {
+      // 40 + 80.5 + 11 * 80 = 1000.5: row 12 is 0.5px over and must move intact.
+      html = `<table>${head}<tbody>${row('R01', 80.5)}${rows(13, 80, 2)}</tbody></table>`;
+    } else if (kind === 'fullpage') {
+      // R02 is exactly one fresh page of body (1000 - 40 header).
+      html = `<table>${head}<tbody>${row('R01', 80)}${row('R02', 960)}${row('R03', 80)}</tbody></table>`;
+    } else if (kind === 'multipage') {
+      const lines = Array.from({ length: 120 }, (_, i) => `LINE-${String(i + 1).padStart(3, '0')} of the multi-page description`).join('<br>');
+      html = `<table>${head}<tbody>${rows(3, 60)}${row('R04', 20, lines, 'AMT-MULTI')}${rows(3, 60, 5)}</tbody></table>`;
+    } else if (kind === 'totals') {
+      // 800px of content, then a 300px keep-together totals block → totals move to page 2 intact.
+      html = `<div class="block" style="height:800px;background:#f4f4f4">filler</div>
+        <div class="totals">${Array.from({ length: 15 }, (_, i) => `<p>TOTAL-LINE-${i + 1}</p>`).join('')}</div>`;
+    } else if (kind === 'totals-huge') {
+      html = `<div class="block" style="height:200px">filler</div>
+        <div class="totals">${Array.from({ length: 75 }, (_, i) => `<p>TOTAL-LINE-${i + 1}</p>`).join('')}<p><b>GRAND-TOTAL 999.00</b></p></div>`;
+    } else if (kind === 'colspan') {
+      html = `<table>${head}<tbody>${rows(5, 40)}<tr><td colspan="2" style="height:40px">SPANNED-DESCRIPTION across two columns</td><td class="amt">AMT-SPAN</td></tr>${rows(30, 40, 6)}</tbody></table>`;
+    } else if (kind === 'rowspan') {
+      // 40 + 11*80 = 920: the 160px R12+R13 rowspan group does not fit the remaining 80px.
+      let body = rows(11, 80);
+      body += `<tr><td class="id" style="height:80px">R12</td><td rowspan="2">ROWSPAN-CELL spanning two rows</td><td class="amt">AMT-R12</td></tr>`;
+      body += `<tr><td class="id" style="height:80px">R13</td><td class="amt">AMT-R13</td></tr>`;
+      body += rows(3, 80, 14);
+      html = `<table>${head}<tbody>${body}</tbody></table>`;
+    } else if (kind === 'header-tall') {
+      const th = '<thead><tr><th class="id" style="height:400px">ID</th><th>Very tall header</th><th class="amt">Amount</th></tr></thead>';
+      html = `<table>${th}<tbody>${rows(20, 80)}</tbody></table>`;
+    } else if (kind === 'big-image') {
+      html = `<p>Before the image</p><img src="./assets/product.jpg" style="display:block;width:800px;height:1600px"><p>AFTER-IMAGE</p>`;
+    }
+    doc.innerHTML = html;
+    document.documentElement.dataset.ready = '1';
+  </script>
+</body>
+</html>

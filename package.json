@@ -1,0 +1,30 @@
+{
+  "name": "zedpdf-workspace",
+  "private": true,
+  "packageManager": "pnpm@10.16.1",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter zedpdf build",
+    "typecheck": "pnpm --filter zedpdf typecheck",
+    "test": "pnpm --filter zedpdf test",
+    "test:e2e": "pnpm build && playwright test",
+    "serve": "node scripts/serve.mjs 4791",
+    "m1": "pnpm build && node scripts/m1-experiment.mjs",
+    "samples": "pnpm build && node scripts/make-samples.mjs",
+    "compat": "pnpm build && node scripts/compat-report.mjs",
+    "bench": "pnpm build && node scripts/bench.mjs",
+    "pack:verify": "node scripts/pack-verify.mjs",
+    "check": "pnpm build && pnpm typecheck && pnpm test && playwright test && pnpm pack:verify",
+    "site": "node scripts/build-site.mjs",
+    "site:preview": "node scripts/build-site.mjs && node scripts/serve.mjs 4792 dist-site",
+    "release:version": "node scripts/release.mjs version",
+    "release:notes": "node scripts/release.mjs notes"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "mupdf": "^1.28.6",
+    "pdfjs-dist": "^6.5.438",
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0"
+  }
+}
